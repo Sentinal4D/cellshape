@@ -1,7 +1,5 @@
 README
 ================
-MDV and LGD
-17/06/2022
 
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
