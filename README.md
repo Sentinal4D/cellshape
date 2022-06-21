@@ -6,9 +6,8 @@ state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 
-<figure>
-<img src="img/cellshape.png" style="width:100.0%" alt="logo"> 
-</figure>
+<img src="https://github.com/Sentinal4D/cellshape/blob/main/img/cellshape.png" 
+     alt="Cellshape logo by Matt De Vries">
 
 ## 3D single-cell shape analysis of cancer cells using geometric deep learning
 
