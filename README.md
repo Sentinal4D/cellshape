@@ -12,11 +12,11 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 <img src="img/cellshape.png" style="width:100.0%" alt="logo"> 
 </figure>
 
-## cellshape: 3D SINGLE-CELL SHAPE ANALYSIS OF CANCER CELLS USING GEOMETRIC DEEP LEARNING
+## 3D single-cell shape analysis of cancer cells using geometric deep learning
 
 
 This is a package for **automatically learning** and **clustering** cell
-shapes from 3D images.
+shapes from 3D images. Please refer to our preprint on bioRxiv [here](https://www.biorxiv.org/content/10.1101/2022.06.17.496550v1)
 
 **cellshape** is available for everyone.
 
