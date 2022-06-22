@@ -12,15 +12,14 @@ requirements = [
     "pyntcloud",
     "numpy",
     "matplotlib",
-    "Pillow"
+    "Pillow",
 ]
 
 
 setup(
-    name="cellfinder",
-    version="0.4.20",
-    description="Automated 3D cell detection and registration of "
-    "whole-brain images",
+    name="cellshape",
+    version="0.0.2",
+    description="3D shape analysis using deep learning",
     long_description=long_description,
     long_description_content_type="text/markdown",
     install_requires=requirements,
