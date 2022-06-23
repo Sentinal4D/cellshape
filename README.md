@@ -1,10 +1,15 @@
-README
-================
-
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-
+[![Python Version](https://img.shields.io/pypi/pyversions/cellshape.svg)](https://pypi.org/project/cellshape)
+[![PyPI](https://img.shields.io/pypi/v/cellshape.svg)](https://pypi.org/project/cellshape)
+[![Downloads](https://pepy.tech/badge/cellshape)](https://pepy.tech/project/cellshape)
+[![Wheel](https://img.shields.io/pypi/wheel/cellshape.svg)](https://pypi.org/project/cellshape)
+[![Development Status](https://img.shields.io/pypi/status/cellshape.svg)](https://github.com/Sentinal4D/cellshape)
+[![Tests](https://img.shields.io/github/workflow/status/Sentinal4D/cellshape/tests)](
+    https://github.com/Sentinal4D/cellshape/actions)
+[![Coverage Status](https://coveralls.io/repos/github/Sentinal4D/cellshape/badge.svg?branch=master)](https://coveralls.io/github/Sentinal4D/cellshape?branch=master)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 <img src="https://github.com/Sentinal4D/cellshape/blob/main/img/cellshape.png" 
      alt="Cellshape logo by Matt De Vries">
