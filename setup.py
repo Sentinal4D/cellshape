@@ -12,7 +12,6 @@ requirements = [
     "pyntcloud",
     "numpy",
     "matplotlib",
-    "Pillow",
 ]
 
 
