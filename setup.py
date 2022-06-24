@@ -12,6 +12,10 @@ requirements = [
     "pyntcloud",
     "numpy",
     "matplotlib",
+    "cellshape-helper",
+    "cellshape-cloud",
+    "cellshape-voxel",
+    "cellshape-cluster",
 ]
 
 
@@ -42,7 +46,7 @@ setup(
         "Source Code": "https://github.com/Sentinal4D/cellshape",
         "Bug Tracker": "https://github.com/Sentinal4D/cellshape/issues",
     },
-    author="Matt De Vries, Adam Tyson",
+    author="Matt De Vries, Lucas Dent, Adam Tyson",
     author_email="mattdevries.ai@gmail.com",
     classifiers=[
         "Development Status :: 3 - Alpha",
