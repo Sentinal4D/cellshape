@@ -21,7 +21,7 @@ requirements = [
 
 setup(
     name="cellshape",
-    version="0.0.7-rc0",
+    version="0.0.7",
     description="3D shape analysis using deep learning",
     long_description=long_description,
     long_description_content_type="text/markdown",
