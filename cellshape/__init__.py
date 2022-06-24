@@ -1,4 +1,4 @@
-__version__ = "0.0.6-rc0"
+__version__ = "0.0.7-rc0"
 
 import cellshape_helper as helper
 import cellshape_cloud as cloud
