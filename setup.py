@@ -12,7 +12,10 @@ requirements = [
     "pyntcloud",
     "numpy",
     "matplotlib",
-    "Pillow",
+    "cellshape-helper",
+    "cellshape-cloud",
+    "cellshape-voxel",
+    "cellshape-cluster"
 ]
 
 
