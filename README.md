@@ -57,7 +57,7 @@ networks for inference.
 </figure>
 
 ## Usage
-```pthon
+```python
 import torch
 from torch.utils.data import DataLoader
 
@@ -105,11 +105,9 @@ alpha = 1.0
 divergence_tolerance = 0.01
 
 
-model = DeepEmbeddedClustering(autoencoder=autoencoder, 
+model = cscluster.DeepEmbeddedClustering(autoencoder=autoencoder, 
                                num_clusters=num_clusters,
                                alpha=alpha)
-
-dataset = cscloud.PointCloudDataset(dataset_dir)
 
 dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False) # it is very important that shuffle=False here!
 dataloader_inf = DataLoader(dataset, batch_size=1, shuffle=False) # it is very important that batch_size=1 and shuffle=False here!
@@ -122,9 +120,9 @@ optimizer = torch.optim.Adam(
 )
 
 reconstruction_criterion = ChamferDistance()
-cluster_criterion = nn.KLDivLoss(reduction="sum")
+cluster_criterion = torch.nn.KLDivLoss(reduction="sum")
 
-train(
+cscluster.train(
     model,
     dataloader,
     dataloader_inf,
