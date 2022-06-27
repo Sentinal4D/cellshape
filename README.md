@@ -58,7 +58,85 @@ networks for inference.
 
 ## Usage
 ```pthon
+import torch
+from torch.utils.data import DataLoader
 
+import cellshape_cloud as cscloud
+import cellshape_cluster as cscluster
+from cellshape_cloud.vendor.chamfer_distance import ChamferDistance
+
+
+input_dir = "path/to/pointcloud/files/"
+batch_size = 16
+learning_rate = 0.0001
+num_epochs_autoencoder = 250
+num_features = 128
+k = 20
+encoder_type = "dgcnn"
+decoder_type = "foldingnetbasic"
+output_dir = "path/to/save/output/"
+
+autoencoder = cscloud.CloudAutoEncoder(num_features=num_features, 
+                         k=k,
+                         encoder_type=encoder_type,
+                         decoder_type=decoder_type)
+
+dataset = cscloud.PointCloudDataset(input_dir)
+
+dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+
+criterion = ChamferDistance()
+
+optimizer = torch.optim.Adam(
+    model.parameters(),
+    lr=learning_rate * 16 / batch_size,
+    betas=(0.9, 0.999),
+    weight_decay=1e-6,
+)
+
+cscloud.train(autoencoder, dataloader, num_epochs_autoencoder, criterion, optimizer, output_dir)
+
+
+num_clusters = 10
+num_epochs_clustering = 250
+learning_rate = 0.00001
+gamma = 1
+alpha = 1.0
+divergence_tolerance = 0.01
+
+
+model = DeepEmbeddedClustering(autoencoder=autoencoder, 
+                               num_clusters=num_clusters,
+                               alpha=alpha)
+
+dataset = cscloud.PointCloudDataset(dataset_dir)
+
+dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False) # it is very important that shuffle=False here!
+dataloader_inf = DataLoader(dataset, batch_size=1, shuffle=False) # it is very important that batch_size=1 and shuffle=False here!
+
+optimizer = torch.optim.Adam(
+    model.parameters(),
+    lr=learning_rate * 16 / batch_size,
+    betas=(0.9, 0.999),
+    weight_decay=1e-6,
+)
+
+reconstruction_criterion = ChamferDistance()
+cluster_criterion = nn.KLDivLoss(reduction="sum")
+
+train(
+    model,
+    dataloader,
+    dataloader_inf,
+    num_epochs_clustering,
+    optimizer,
+    reconstruction_criterion,
+    cluster_criterion,
+    update_interval,
+    gamma,
+    divergence_tolerance,
+    output_dir
+)
 ```
 
 ## For developers
