@@ -33,6 +33,7 @@ setup(
     extras_require={
         "dev": [
             "black",
+            "black[jupyter]",
             "pytest-cov",
             "pytest",
             "gitpython",
