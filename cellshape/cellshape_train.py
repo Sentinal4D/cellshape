@@ -50,7 +50,13 @@ def cellshape_train(params):
             weight_decay=1e-6,
         )
 
-        cscloud.train(
+        (
+            autoencoder,
+            name_logging,
+            name_model,
+            name_writer,
+            name,
+        ) = cscloud.train(
             autoencoder,
             dataloader,
             num_epochs_autoencoder,
@@ -79,7 +85,13 @@ def cellshape_train(params):
             weight_decay=1e-6,
         )
 
-        csvoxel.train(
+        (
+            autoencoder,
+            name_logging,
+            name_model,
+            name_writer,
+            name,
+        ) = csvoxel.train(
             autoencoder,
             dataloader,
             num_epochs_autoencoder,

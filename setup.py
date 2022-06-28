@@ -16,6 +16,10 @@ requirements = [
     "cellshape-cloud",
     "cellshape-voxel",
     "cellshape-cluster",
+    "umap-learn",
+    "scikit-learn",
+    "plotly",
+    "napari[all]",
 ]
 
 
