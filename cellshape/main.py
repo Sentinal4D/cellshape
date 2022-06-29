@@ -1,13 +1,13 @@
 import torch
 from torch.utils.data import DataLoader
 import argparse
+from datetime import datetime
+import logging
 
 import cellshape_cloud as cscloud
-import cellshape_voxel as csvoxel
 import cellshape_cluster as cscluster
+import cellshape_helper as cshelper
 from cellshape_cloud.vendor.chamfer_distance import ChamferLoss
-from cellshape_voxel.losses import FocalTverskyLoss
-from cellshape_train import cellshape_train
 
 
 if __name__ == "__main__":
@@ -26,6 +26,12 @@ if __name__ == "__main__":
         help="Do you need to convert 3D images to point clouds?",
     )
     parser.add_argument(
+        "--num_points",
+        default=2048,
+        type=int,
+        help="The number of points used in each point cloud.",
+    )
+    parser.add_argument(
         "--train_type",
         default="full",
         type=str,
@@ -36,14 +42,34 @@ if __name__ == "__main__":
         "--pretrain",
         default=True,
         type=bool,
-        help="Please provide whether or not to pretrain " "the autoencoder",
+        help="Please provide whether or not to pretrain the autoencoder",
     )
     parser.add_argument(
-        "--dataset_path",
-        default="./datasets/",
+        "--tif_dataset_path",
+        default="./dataset_tif/",
         type=str,
-        help="Please provide the path to the "
-        "dataset of 3D images or point clouds",
+        help="Please provide the path to the " "dataset of 3D tif images",
+    )
+    parser.add_argument(
+        "--mesh_dataset_path",
+        default="./dataset_mesh/",
+        type=str,
+        help="Please provide the path to the " "dataset of 3D meshes.",
+    )
+    parser.add_argument(
+        "--cloud_dataset_path",
+        default="./dataset_cloud/",
+        type=str,
+        help="Please provide the path to the " "dataset of the point clouds.",
+    )
+    parser.add_argument(
+        "--dataset_type",
+        default="SingleCell",
+        type=str,
+        choices=["SingleCell", "Other"],
+        help="Please provide the type of dataset. "
+        "If using the one from our paper, then choose 'SingleCell', "
+        "otherwise, choose 'Other'.",
     )
     parser.add_argument(
         "--dataframe_path",
@@ -62,19 +88,19 @@ if __name__ == "__main__":
         "--num_epochs_autoencoder",
         default=250,
         type=int,
-        help="Provide the number of epochs for the " "autoencoder training.",
+        help="Provide the number of epochs for the autoencoder training.",
     )
     parser.add_argument(
         "--num_epochs_clustering",
         default=250,
         type=int,
-        help="Provide the number of epochs for the " "autoencoder training.",
+        help="Provide the number of epochs for the autoencoder training.",
     )
     parser.add_argument(
         "--num_features",
         default=128,
         type=int,
-        help="Please provide the number of " "features to extract.",
+        help="Please provide the number of features to extract.",
     )
     parser.add_argument(
         "--num_clusters",
@@ -134,166 +160,366 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    pretrain = args.pretrain
-    train_type = args.train_type
-    params = {"pretrain": pretrain, "train_type": train_type}
 
-    # Cache some errors
-    if train_type == "pretrain" and not pretrain:
-        print("Nothing to do :(")
-        exit()
+    # First decide whether it is a cloud or a voxel model:
+    # Lets' deal with cloud first
+    if args.model_type == "cloud":
+        # Do we need to convert the data?
+        # Yes:
+        if args.cloud_convert:
+            cshelper.tif_to_pc_directory(
+                tif_directory=args.dataset_tif,
+                save_mesh=args.dataset_mesh,
+                save_points=args.dataset_cloud,
+                num_points=args.num_points,
+            )
+        # If no, continue.
+        # Do we want to pretrain the autoencoder FIRST?
+        # Yes
+        if args.pretrain:
+            # Do we want to pretrain (autoencoder without
+            # clustering layer) ONLY?
+            # Yes
+            if args.train_type == "pretrain":
+                output = cscloud.train_autoencoder(args)
+                exit()
 
-    if args.cloud_convert and not (args.model_type == "cloud"):
-        print(
-            "Not converting to point clouds "
-            "as you are not using the cloud models."
-        )
+            # No, we want to train the full thing
+            else:
+                (
+                    autoencoder,
+                    name_logging_ae,
+                    name_model_ae,
+                    name_writer_ae,
+                    name_ae,
+                ) = cscloud.train_autoencoder(args)
 
-    params["pretrained_path"] = args.pretrained_path
-    params["dataframe_path"] = args.dataframe_path
-    params["dataset_path"] = args.dataset_path
-    params["output_path"] = args.output_path
-    params["num_epochs_autoencoder"] = args.num_epochs_autoencoder
-    params["num_features"] = args.num_features
-    params["k"] = args.k
-    params["encoder_type"] = args.encoder_type
-    params["decoder_type"] = args.decoder_type
-    params["learning_rate_autoencoder"] = args.learning_rate_autoencoder
-    params["batch_size"] = args.batch_size
-    params["num_clusters"] = args.num_clusters
-    params["num_epochs_clustering"] = args.num_epochs_clustering
-    params["learning_rate_clustering"] = args.learning_rate_clustering
-    params["gamma"] = args.gamma
-    params["alpha"] = args.alpha
-    params["divergence_tolerance"] = args.divergence_tolerance
-    params["update_interval"] = args.update_interval
-    params["model_type"] = args.model_type
-    params["train_type"] = args.train_type
+                # todo: logging.close()
+                model = cscluster.DeepEmbeddedClustering(
+                    autoencoder=autoencoder, num_clusters=args.num_clusters
+                )
 
-    input_dir = params["input_dir"]
-    batch_size = params["batch_size"]
-    learning_rate_autoencoder = params["learning_rate_autoencoder"]
-    num_epochs_autoencoder = params["num_epochs_autoencoder"]
-    num_features = params["num_features"]
-    k = params["k"]
-    encoder_type = params["encoder_type"]
-    decoder_type = params["decoder_type"]
-    output_dir = params["output_dir"]
-    num_clusters = params["num_clusters"]
-    num_epochs_clustering = params["num_epochs_clustering"]
-    learning_rate_clustering = params["learning_rate_clustering"]
-    gamma = params["gamma"]
-    alpha = params["alpha"]
-    divergence_tolerance = params["divergence_tolerance"]
-    update_interval = params["update_interval"]
-    model_type = params["model_type"]
-    # train_type = params["train_type"]
+                (
+                    name_logging,
+                    name_model,
+                    name_writer,
+                    name,
+                ) = cscluster.get_experiment_name(
+                    model=model, output_dir=args.output_dir
+                )
+                cluster_criterion = torch.nn.KLDivLoss(reduction="sum")
 
-    if model_type == "cloud":
+                if args.dataset_type == "SingleCell":
+                    dataset = cscloud.SingleCellDataset(
+                        args.dataframe_path, args.cloud_dataset_path
+                    )
+                else:
+                    dataset = cscloud.PointCloudDataset(args.input_dir)
 
-        autoencoder = cscloud.CloudAutoEncoder(
-            num_features=num_features,
-            k=k,
-            encoder_type=encoder_type,
-            decoder_type=decoder_type,
-        )
+                dataloader = DataLoader(
+                    dataset, batch_size=args.batch_size, shuffle=False
+                )
+                dataloader_inf = DataLoader(
+                    dataset, batch_size=1, shuffle=False
+                )
 
-        dataset = cscloud.PointCloudDataset(input_dir)
+                optimizer = torch.optim.Adam(
+                    autoencoder.parameters(),
+                    lr=args.learning_rate_cluster * 16 / args.batch_size,
+                    betas=(0.9, 0.999),
+                    weight_decay=1e-6,
+                )
+                reconstruction_criterion = ChamferLoss()
+                cluster_criterion = torch.nn.KLDivLoss(reduction="sum")
 
-        dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+                logging_info = name_logging, name_model, name_writer, name
 
-        reconstruction_criterion = ChamferLoss()
+                name_logging, name_model, name_writer, name = logging_info
+                now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+                logging.basicConfig(filename=name_logging, level=logging.INFO)
+                logging.info(
+                    f"Started training model {name} at {now} "
+                    f"using autoencoder which is saved at {name_model_ae}."
+                )
+                print(
+                    f"Started training model {name} at {now}."
+                    f"using autoencoder which is saved at {name_model_ae}."
+                )
+                for arg, value in sorted(vars(args).items()):
+                    logging.info(f"Argument {arg}: {value}")
+                    print(f"Argument {arg}: {value}")
 
-        optimizer = torch.optim.Adam(
-            autoencoder.parameters(),
-            lr=learning_rate_autoencoder * 16 / batch_size,
-            betas=(0.9, 0.999),
-            weight_decay=1e-6,
-        )
+                cscluster.train(
+                    model=model,
+                    dataloader=dataloader,
+                    dataloader_inf=dataloader_inf,
+                    num_epochs=args.num_epochs_clustering,
+                    optimizer=optimizer,
+                    reconstruction_criterion=reconstruction_criterion,
+                    cluster_criterion=cluster_criterion,
+                    update_interval=args.update_interval,
+                    gamma=args.gamma,
+                    divergence_tolerance=args.divergence_tolerance,
+                    logging_info=logging_info,
+                )
 
-        (
-            autoencoder,
-            name_logging,
-            name_model,
-            name_writer,
-            name,
-        ) = cscloud.train(
-            autoencoder,
-            dataloader,
-            num_epochs_autoencoder,
-            reconstruction_criterion,
-            optimizer,
-            output_dir,
-        )
+        # No, we don't want to pretrain the autoencoder first.
+        # maybe we already have one, or we want
+        # to not start from pretrained features
+        else:
+            autoencoder = cscloud.CloudAutoEncoder(
+                num_features=args.num_features,
+                k=args.k,
+                encoder_type=args.encoder_type,
+                decoder_type=args.decoder_type,
+            )
+            everything_working = True
+            file_not_found = False
+            wrong_architecture = False
+            try:
+                checkpoint = torch.load(args.pretrained_path)
+            except FileNotFoundError:
+                print(
+                    "This model doesn't exist."
+                    "Please check the provided path and try again."
+                )
+                checkpoint = {"model_state_dict": None}
+                file_not_found = True
+                everything_working = False
+            try:
+                autoencoder.load_state_dict(checkpoint["model_state_dict"])
+                print(f"The loss of the loaded model is {checkpoint['loss']}")
+            except RuntimeError:
+                print(
+                    "The model architecture given doesn't "
+                    "match the one provided."
+                )
+                print("Training from scratch")
+                wrong_architecture = True
+                everything_working = False
+            except AttributeError:
+                print("Training from scratch")
 
-    else:
-        autoencoder = csvoxel.VoxelAutoEncoder(
-            num_features=num_features,
-            encoder_type=encoder_type,
-            decoder_type=decoder_type,
-        )
+            model = cscluster.DeepEmbeddedClustering(
+                autoencoder=autoencoder, num_clusters=args.num_clusters
+            )
 
-        dataset = csvoxel.VoxelDataset(input_dir)
+            (
+                name_logging,
+                name_model,
+                name_writer,
+                name,
+            ) = cscluster.get_experiment_name(
+                model=model, output_dir=args.output_dir
+            )
+            cluster_criterion = torch.nn.KLDivLoss(reduction="sum")
 
-        dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+            if args.dataset_type == "SingleCell":
+                dataset = cscloud.SingleCellDataset(
+                    args.dataframe_path, args.cloud_dataset_path
+                )
+            else:
+                dataset = cscloud.PointCloudDataset(args.input_dir)
 
-        reconstruction_criterion = FocalTverskyLoss()
+            dataloader = DataLoader(
+                dataset, batch_size=args.batch_size, shuffle=False
+            )
+            dataloader_inf = DataLoader(dataset, batch_size=1, shuffle=False)
 
-        optimizer = torch.optim.Adam(
-            autoencoder.parameters(),
-            lr=learning_rate_autoencoder * 16 / batch_size,
-            betas=(0.9, 0.999),
-            weight_decay=1e-6,
-        )
+            optimizer = torch.optim.Adam(
+                autoencoder.parameters(),
+                lr=args.learning_rate_cluster * 16 / args.batch_size,
+                betas=(0.9, 0.999),
+                weight_decay=1e-6,
+            )
+            reconstruction_criterion = ChamferLoss()
+            cluster_criterion = torch.nn.KLDivLoss(reduction="sum")
 
-        (
-            autoencoder,
-            name_logging,
-            name_model,
-            name_writer,
-            name,
-        ) = csvoxel.train(
-            autoencoder,
-            dataloader,
-            num_epochs_autoencoder,
-            reconstruction_criterion,
-            optimizer,
-            output_dir,
-        )
+            logging_info = name_logging, name_model, name_writer, name
 
-    model = cscluster.DeepEmbeddedClustering(
-        autoencoder=autoencoder, num_clusters=num_clusters, alpha=alpha
-    )
+            now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+            logging.basicConfig(filename=name_logging, level=logging.INFO)
+            if everything_working:
+                logging.info(
+                    f"Started training cluster model {name} at {now} "
+                    f"using autoencoder which is "
+                    f"saved at {args.pretrained_path}."
+                )
+                print(
+                    f"Started training model {name} at {now}."
+                    f"using autoencoder which is s"
+                    f"aved at {args.pretrained_path}."
+                )
+            if file_not_found:
+                logging.info(
+                    f"The autoencoder model at {args.pretrained_path}"
+                    f" doesn't exist."
+                    f"if you knew this already, then don't worry. "
+                    f"If not, then check the path and try again"
+                )
+                logging.info("Training from scratch")
+                print(
+                    f"The autoencoder model at "
+                    f"{args.pretrained_path} doesn't exist."
+                    f"if you knew this already, then don't worry. "
+                    f"If not, then check the path and try again"
+                )
+                print("Training from scratch")
 
-    dataloader = DataLoader(
-        dataset, batch_size=batch_size, shuffle=False
-    )  # it is very important that shuffle=False here!
-    dataloader_inf = DataLoader(
-        dataset, batch_size=1, shuffle=False
-    )  # it is very important that batch_size=1 and shuffle=False here!
+            if wrong_architecture:
+                logging.info(
+                    f"The autoencoder model at {args.pretrained_path} has "
+                    f"a different architecture to the one provided "
+                    f"If not, then check the path and try again"
+                )
+                logging.info("Training from scratch")
+                print(
+                    f"The autoencoder model at {args.pretrained_path} "
+                    f"has a different architecture to the one provided "
+                    f"If not, then check the path and try again"
+                )
+                print("Training from scratch")
 
-    optimizer = torch.optim.Adam(
-        model.parameters(),
-        lr=learning_rate_clustering * 16 / batch_size,
-        betas=(0.9, 0.999),
-        weight_decay=1e-6,
-    )
+            for arg, value in sorted(vars(args).items()):
+                logging.info(f"Argument {arg}: {value}")
+                print(f"Argument {arg}: {value}")
 
-    reconstruction_criterion = ChamferLoss()
-    cluster_criterion = torch.nn.KLDivLoss(reduction="sum")
+            cscluster.train(
+                model=model,
+                dataloader=dataloader,
+                dataloader_inf=dataloader_inf,
+                num_epochs=args.num_epochs_clustering,
+                optimizer=optimizer,
+                reconstruction_criterion=reconstruction_criterion,
+                cluster_criterion=cluster_criterion,
+                update_interval=args.update_interval,
+                gamma=args.gamma,
+                divergence_tolerance=args.divergence_tolerance,
+                logging_info=logging_info,
+            )
 
-    cscluster.train(
-        model,
-        dataloader,
-        dataloader_inf,
-        num_epochs_clustering,
-        optimizer,
-        reconstruction_criterion,
-        cluster_criterion,
-        update_interval,
-        gamma,
-        divergence_tolerance,
-        output_dir,
-    )
-
-    cellshape_train(params=params)
+    # ############################################################
+    # # Cache some errors
+    # if args.train_type == "pretrain" and not args.pretrain:
+    #     print("Nothing to do :(")
+    #     exit()
+    #
+    # if args.cloud_convert and not (args.model_type == "cloud"):
+    #     print(
+    #         "Not converting to point clouds "
+    #         "as you are not using the cloud models."
+    #     )
+    #
+    # if args.model_type == "cloud":
+    #
+    #     autoencoder = cscloud.CloudAutoEncoder(
+    #         num_features=args.num_features,
+    #         k=args.k,
+    #         encoder_type=args.encoder_type,
+    #         decoder_type=args.decoder_type,
+    #     )
+    #
+    #     dataset = cscloud.PointCloudDataset(args.input_dir)
+    #
+    #     dataloader = DataLoader(dataset,
+    #     batch_size=args.batch_size, shuffle=True)
+    #
+    #     reconstruction_criterion = ChamferLoss()
+    #
+    #     optimizer = torch.optim.Adam(
+    #         autoencoder.parameters(),
+    #         lr=args.learning_rate_autoencoder * 16 / args.batch_size,
+    #         betas=(0.9, 0.999),
+    #         weight_decay=1e-6,
+    #     )
+    #
+    #     (
+    #         autoencoder,
+    #         name_logging,
+    #         name_model,
+    #         name_writer,
+    #         name,
+    #     ) = cscloud.train(
+    #         autoencoder,
+    #         dataloader,
+    #         args.num_epochs_autoencoder,
+    #         reconstruction_criterion,
+    #         optimizer,
+    #         args.output_dir,
+    #     )
+    #
+    # else:
+    #     autoencoder = csvoxel.VoxelAutoEncoder(
+    #         num_features=args.num_features,
+    #         encoder_type=args.encoder_type,
+    #         decoder_type=args.decoder_type,
+    #     )
+    #
+    #     dataset = csvoxel.VoxelDataset(args.input_dir)
+    #
+    #     dataloader = DataLoader(dataset,
+    #     batch_size=args.batch_size, shuffle=True)
+    #
+    #     reconstruction_criterion = FocalTverskyLoss()
+    #
+    #     optimizer = torch.optim.Adam(
+    #         autoencoder.parameters(),
+    #         lr=args.learning_rate_autoencoder * 16 / args.batch_size,
+    #         betas=(0.9, 0.999),
+    #         weight_decay=1e-6,
+    #     )
+    #
+    #     (
+    #         autoencoder,
+    #         name_logging,
+    #         name_model,
+    #         name_writer,
+    #         name,
+    #     ) = csvoxel.train(
+    #         autoencoder,
+    #         dataloader,
+    #         args.num_epochs_autoencoder,
+    #         reconstruction_criterion,
+    #         optimizer,
+    #         args.output_dir,
+    #     )
+    #
+    # if args.train_type == "pretrain" and args.pretrain:
+    #     print()
+    #
+    # model = cscluster.DeepEmbeddedClustering(
+    #     autoencoder=autoencoder, num_clusters=args.num_clusters
+    # )
+    #
+    # dataloader = DataLoader(
+    #     dataset, batch_size=args.batch_size, shuffle=False
+    # )  # it is very important that shuffle=False here!
+    # dataloader_inf = DataLoader(
+    #     dataset, batch_size=1, shuffle=False
+    # )  # it is very important that batch_size=1 and shuffle=False here!
+    #
+    # optimizer = torch.optim.Adam(
+    #     model.parameters(),
+    #     lr=args.learning_rate_clustering * 16 / args.batch_size,
+    #     betas=(0.9, 0.999),
+    #     weight_decay=1e-6,
+    # )
+    #
+    # reconstruction_criterion = ChamferLoss()
+    # cluster_criterion = torch.nn.KLDivLoss(reduction="sum")
+    #
+    # cscluster.train(
+    #     model=model,
+    #     dataloader=dataloader,
+    #     dataloader_inf=dataloader_inf,
+    #     num_epochs=args.num_epochs_clustering,
+    #     optimizer=optimizer,
+    #     reconstruction_criterion=reconstruction_criterion,
+    #     cluster_criterion=cluster_criterion,
+    #     update_interval=args.update_interval,
+    #     gamma=args.gamma,
+    #     divergence_tolerance=args.divergence_tolerance,
+    #     logging_info=logging_info,
+    # )
+    #
+    # cellshape_train(args)
