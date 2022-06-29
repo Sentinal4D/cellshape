@@ -21,7 +21,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--cloud_convert",
-        default=False,
+        default=True,
         type=bool,
         help="Do you need to convert 3D images to point clouds?",
     )
@@ -46,19 +46,22 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--tif_dataset_path",
-        default="./dataset_tif/",
+        default="/home/mvries/Documents/CellShape/"
+        "UploadData/Dataset/TestConvert/TestTiff/",
         type=str,
         help="Please provide the path to the " "dataset of 3D tif images",
     )
     parser.add_argument(
         "--mesh_dataset_path",
-        default="./dataset_mesh/",
+        default="/home/mvries/Documents/CellShape/"
+        "UploadData/Dataset/TestConvert/TestMesh/",
         type=str,
         help="Please provide the path to the " "dataset of 3D meshes.",
     )
     parser.add_argument(
         "--cloud_dataset_path",
-        default="/home/mvries/Documents/CellShape/DatasetForTesting/",
+        default="/home/mvries/Documents/CellShape/"
+        "UploadData/Dataset/TestConvert/TestPointCloud/",
         type=str,
         help="Please provide the path to the " "dataset of the point clouds.",
     )
@@ -73,7 +76,8 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--dataframe_path",
-        default="./dataframe/",
+        default="/home/mvries/Documents/CellShape/UploadData/"
+        "Dataset/all_data_removedwrong_ori_removedTwo.csv",
         type=str,
         help="Please provide the path to the dataframe "
         "containing information on the dataset.",
@@ -144,6 +148,30 @@ if __name__ == "__main__":
         help="Please provide the batch size.",
     )
     parser.add_argument(
+        "--update_interval",
+        default=1,
+        type=int,
+        help="Please provide the update interval.",
+    )
+    parser.add_argument(
+        "--gamma",
+        default=1,
+        type=int,
+        help="Please provide the value for gamma.",
+    )
+    parser.add_argument(
+        "--alpha",
+        default=1.0,
+        type=float,
+        help="Please provide the value for alpha.",
+    )
+    parser.add_argument(
+        "--divergence_tolerance",
+        default=0.01,
+        type=float,
+        help="Please provide the divergence tolerance.",
+    )
+    parser.add_argument(
         "--proximal",
         default=0,
         type=int,
@@ -152,9 +180,9 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--pretrained_path",
-        default="/run/user/1128299809/gvfs/smb-share:server=rds.icr.ac.uk,"
-        "share=data/DBI/DUDBI/DYNCESYS/mvries/ResultsAlma/TearingNetNew/"
-        "nets/dgcnn_foldingnet_128_008.pt",
+        default="/home/mvries/Documents/CellShape/"
+        "UploadData/Models/cloud_autoencoder/"
+        "dgcnn_foldingnet_128_001.pt",
         type=str,
         help="Please provide the path to a pretrained autoencoder.",
     )
@@ -167,12 +195,22 @@ if __name__ == "__main__":
         # Do we need to convert the data?
         # Yes:
         if args.cloud_convert:
-            cshelper.tif_to_pc_directory(
-                tif_directory=args.dataset_tif,
-                save_mesh=args.dataset_mesh,
-                save_points=args.dataset_cloud,
-                num_points=args.num_points,
-            )
+            if args.dataset_type == "SingleCell":
+                print("No need to convert as these are given.")
+            else:
+                print(
+                    f"Converting tif files from {args.tif_dataset_path}, \n"
+                    f"and saving mesh object files to"
+                    f" {args.mesh_dataset_path} \n"
+                    f"and point cloud files to {args.cloud_dataset_path}"
+                )
+                cshelper.tif_to_pc_directory(
+                    tif_directory=args.tif_dataset_path,
+                    save_mesh=args.mesh_dataset_path,
+                    save_points=args.cloud_dataset_path,
+                    num_points=args.num_points,
+                )
+
         # If no, continue.
         # Do we want to pretrain the autoencoder FIRST?
         # Yes
@@ -194,7 +232,6 @@ if __name__ == "__main__":
                     name_ae,
                 ) = cscloud.train_autoencoder(args)
 
-                # todo: logging.close()
                 model = cscluster.DeepEmbeddedClustering(
                     autoencoder=autoencoder, num_clusters=args.num_clusters
                 )
@@ -227,7 +264,7 @@ if __name__ == "__main__":
 
                 optimizer = torch.optim.Adam(
                     autoencoder.parameters(),
-                    lr=args.learning_rate_cluster * 16 / args.batch_size,
+                    lr=args.learning_rate_clustering * 16 / args.batch_size,
                     betas=(0.9, 0.999),
                     weight_decay=1e-6,
                 )
@@ -355,16 +392,16 @@ if __name__ == "__main__":
             if file_not_found:
                 logging.info(
                     f"The autoencoder model at {args.pretrained_path}"
-                    f" doesn't exist."
-                    f"if you knew this already, then don't worry. "
-                    f"If not, then check the path and try again"
+                    f" doesn't exist. "
+                    f"If you knew this already, then don't worry. "
+                    f"If not, then check the path and try again."
                 )
                 logging.info("Training from scratch")
                 print(
                     f"The autoencoder model at "
                     f"{args.pretrained_path} doesn't exist."
                     f"if you knew this already, then don't worry. "
-                    f"If not, then check the path and try again"
+                    f"If not, then check the path and try again."
                 )
                 print("Training from scratch")
 
