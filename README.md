@@ -60,21 +60,32 @@ networks for inference.
 ```python
 import torch
 from torch.utils.data import DataLoader
+from datetime import datetime
+import logging
 
 import cellshape_cloud as cscloud
 import cellshape_cluster as cscluster
-from cellshape_cloud.vendor.chamfer_distance import ChamferDistance
+from cellshape_cloud.vendor.chamfer_distance import ChamferLoss
+from cellshape_cloud.helpers.reports import get_experiment_name
 
 
-input_dir = "path/to/pointcloud/files/"
-batch_size = 16
-learning_rate = 0.0001
-num_epochs_autoencoder = 250
+input_dir = "/home/mvries/Documents/CellShape/DatasetForTesting/"
+batch_size = 20
+learning_rate_autoencoder = 0.00001
+learning_rate_clustering = 0.000001
 num_features = 128
-k = 20
-encoder_type = "dgcnn"
+num_clusters = 3
+num_epochs_autoencoder = 1
+num_epochs_clustering = 3
+k=20
+encoder_type="dgcnn"
 decoder_type = "foldingnetbasic"
-output_dir = "path/to/save/output/"
+output_dir = "/home/mvries/Documents/Testing_output/"
+gamma = 1
+alpha = 1.0
+divergence_tolerance = 0.01
+update_interval = 1
+
 
 autoencoder = cscloud.CloudAutoEncoder(num_features=num_features, 
                          k=k,
@@ -85,41 +96,51 @@ dataset = cscloud.PointCloudDataset(input_dir)
 
 dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
-criterion = ChamferDistance()
+criterion = ChamferLoss()
 
 optimizer = torch.optim.Adam(
-    model.parameters(),
-    lr=learning_rate * 16 / batch_size,
+    autoencoder.parameters(),
+    lr=learning_rate_autoencoder * 16 / batch_size,
     betas=(0.9, 0.999),
     weight_decay=1e-6,
 )
 
-cscloud.train(autoencoder, dataloader, num_epochs_autoencoder, criterion, optimizer, output_dir)
+name_logging, name_model, name_writer, name = get_experiment_name(
+        model=autoencoder, output_dir=output_dir
+    )
 
+logging_info = name_logging, name_model, name_writer, name
 
-num_clusters = 10
-num_epochs_clustering = 250
-learning_rate = 0.00001
-gamma = 1
-alpha = 1.0
-divergence_tolerance = 0.01
+now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+logging.basicConfig(filename=name_logging, level=logging.INFO)
+logging.info(f"Started training model {name} at {now}.")
+
+output_cloud = cscloud.train(autoencoder, 
+                             dataloader,
+                             num_epochs_autoencoder, 
+                             criterion, 
+                             optimizer,
+                             logging_info)
+
+autoencoder = output_cloud[0]
 
 
 model = cscluster.DeepEmbeddedClustering(autoencoder=autoencoder, 
-                               num_clusters=num_clusters,
-                               alpha=alpha)
+                               num_clusters=num_clusters)
 
-dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False) # it is very important that shuffle=False here!
-dataloader_inf = DataLoader(dataset, batch_size=1, shuffle=False) # it is very important that batch_size=1 and shuffle=False here!
+dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False) 
+# it is very important that shuffle=False here!
+dataloader_inf = DataLoader(dataset, batch_size=1, shuffle=False) 
+# it is very important that batch_size=1 and shuffle=False here!
 
 optimizer = torch.optim.Adam(
     model.parameters(),
-    lr=learning_rate * 16 / batch_size,
+    lr=learning_rate_clustering * 16 / batch_size,
     betas=(0.9, 0.999),
     weight_decay=1e-6,
 )
 
-reconstruction_criterion = ChamferDistance()
+reconstruction_criterion = ChamferLoss()
 cluster_criterion = torch.nn.KLDivLoss(reduction="sum")
 
 cscluster.train(
@@ -133,7 +154,7 @@ cscluster.train(
     update_interval,
     gamma,
     divergence_tolerance,
-    output_dir
+    logging_info
 )
 ```
 
