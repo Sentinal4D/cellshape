@@ -58,13 +58,13 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--cloud_dataset_path",
-        default="./dataset_cloud/",
+        default="/home/mvries/Documents/CellShape/DatasetForTesting/",
         type=str,
         help="Please provide the path to the " "dataset of the point clouds.",
     )
     parser.add_argument(
         "--dataset_type",
-        default="SingleCell",
+        default="Other",
         type=str,
         choices=["SingleCell", "Other"],
         help="Please provide the type of dataset. "
@@ -79,20 +79,20 @@ if __name__ == "__main__":
         "containing information on the dataset.",
     )
     parser.add_argument(
-        "--output_path",
-        default="./",
+        "--output_dir",
+        default="/home/mvries/Documents/Testing_output/",
         type=str,
         help="Please provide the path for where to save output.",
     )
     parser.add_argument(
         "--num_epochs_autoencoder",
-        default=250,
+        default=1,
         type=int,
         help="Provide the number of epochs for the autoencoder training.",
     )
     parser.add_argument(
         "--num_epochs_clustering",
-        default=250,
+        default=3,
         type=int,
         help="Provide the number of epochs for the autoencoder training.",
     )
@@ -214,7 +214,9 @@ if __name__ == "__main__":
                         args.dataframe_path, args.cloud_dataset_path
                     )
                 else:
-                    dataset = cscloud.PointCloudDataset(args.input_dir)
+                    dataset = cscloud.PointCloudDataset(
+                        args.cloud_dataset_path
+                    )
 
                 dataloader = DataLoader(
                     dataset, batch_size=args.batch_size, shuffle=False
@@ -319,7 +321,7 @@ if __name__ == "__main__":
                     args.dataframe_path, args.cloud_dataset_path
                 )
             else:
-                dataset = cscloud.PointCloudDataset(args.input_dir)
+                dataset = cscloud.PointCloudDataset(args.cloud_dataset_path)
 
             dataloader = DataLoader(
                 dataset, batch_size=args.batch_size, shuffle=False
