@@ -10,7 +10,7 @@ requirements = [
     "torch",
     "torchvision",
     "pyntcloud",
-    "numpy==1.22",
+    "numpy==1.21",
     "matplotlib",
     "cellshape-helper",
     "cellshape-cloud",
