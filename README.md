@@ -63,15 +63,15 @@ Our data is structured in the following way:
 ```
 Data/
     all_data_stats.csv
-        Plate1/
-            stacked_pointcloud/
-                Binimetinib/
-                    0010_0001_accelerator_20210315_bakal01_erk_main_21-03-15_12-37-27.ply
-                    ...
-                Blebbistatin/
+    Plate1/
+        stacked_pointcloud/
+            Binimetinib/
+                0010_0001_accelerator_20210315_bakal01_erk_main_21-03-15_12-37-27.ply
                 ...
-        Plate2/
-        Plate3/
+            Blebbistatin/
+            ...
+    Plate2/
+    Plate3/
 ```
 
 ## Usage
