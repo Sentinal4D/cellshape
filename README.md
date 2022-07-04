@@ -56,6 +56,24 @@ networks for inference.
 <img src="img/github_cellshapes.png" style="width:100.0%" alt="Fig 1: cellshape workflow" />
 </figure>
 
+## Data structure
+
+Our data is structured in the following way:
+
+```
+Data/
+    all_data_stats.csv
+        Plate1/
+            stacked_pointcloud/
+                Binimetinib/
+                    0010_0001_accelerator_20210315_bakal01_erk_main_21-03-15_12-37-27.ply
+                    ...
+                Blebbistatin/
+                ...
+        Plate2/
+        Plate3/
+```
+
 ## Usage
 ```python
 import torch
