@@ -22,35 +22,11 @@ shapes from 3D images. Please refer to our preprint on bioRxiv [here](https://ww
 
 **cellshape** is available for everyone.
 
-## Graph neural network
-<https://github.com/Sentinal4D/cellshape-cloud> Cellshape-cloud is an
-easy-to-use tool to analyse the shapes of cells using deep learning and,
-in particular, graph-neural networks. The tool provides the ability to
-train popular graph-based autoencoders on point cloud data of 2D and 3D
-single cell masks as well as providing pre-trained networks for
-inference.
-
-## Clustering
-<https://github.com/Sentinal4D/cellshape-cluster>
-
-Cellshape-cluster is an easy-to-use tool to analyse the cluster cells by
-their shape using deep learning and, in particular,
-deep-embedded-clustering. The tool provides the ability to train popular
-graph-based or convolutional autoencoders on point cloud or voxel data
-of 3D single cell masks as well as providing pre-trained networks for
-inference.
-
-<https://github.com/Sentinal4D/cellshape-voxel>
-
-## Convolutional neural network
-Cellshape-voxel is an easy-to-use tool to analyse the shapes of cells
-using deep learning and, in particular, 3D convolutional neural
-networks. The tool provides the ability to train 3D convolutional
-autoencoders on 3D single cell masks as well as providing pre-trained
-networks for inference.  
-
-## Point cloud generation
-<https://github.com/Sentinal4D/cellshape-helper>
+cellshape is the main package which is made up of sub-packages:
+- cellshape-helper: <https://github.com/Sentinal4D/cellshape-helper>
+- cellshape-cloud: <https://github.com/Sentinal4D/cellshape-cloud> 
+- cellshape-voxel: <https://github.com/Sentinal4D/cellshape-voxel>
+- cellshape-cluster: <https://github.com/Sentinal4D/cellshape-cluster>
 
 <figure>
 <img src="img/github_cellshapes.png" style="width:100.0%" alt="Fig 1: cellshape workflow" />
