@@ -28,9 +28,14 @@ cellshape is the main package which is made up of sub-packages:
 - cellshape-voxel: <https://github.com/Sentinal4D/cellshape-voxel>
 - cellshape-cluster: <https://github.com/Sentinal4D/cellshape-cluster>
 
-<figure>
-<img src="img/github_cellshapes.png" style="width:100.0%" alt="Fig 1: cellshape workflow" />
-</figure>
+## Installation and requirements
+### Dependencies
+The software requires Python 3.7 or greater, `PyTorch`, `torchvision`, `pyntcloud`, `numpy`, `scikit-learn`, `tensorboard`, `tqdm`, `datetime`. This repo makes extensive use of [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster), [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper), and [`cellshape-voxel`](https://github.com/Sentinal4D/cellshape-voxel). to reproduce our results in our paper, only [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster) are needed.
+
+### To install
+```bash
+pip install cellshape
+```
 
 ## Data structure
 
