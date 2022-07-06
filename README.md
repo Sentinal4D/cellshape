@@ -49,6 +49,8 @@ Data/
     Plate2/
     Plate3/
 ```
+### Data availability
+Datasets to reproduce our results in our paper are available
 
 ## Usage
 ```python
