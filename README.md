@@ -37,6 +37,9 @@ The software requires Python 3.7 or greater, `PyTorch`, `torchvision`, `pyntclou
 pip install cellshape
 ```
 
+### Hardware requirements
+We have tested this software of an Ubuntu 20.04LTS with 128Gb RAM and NVIDIA Quadro RTX 6000 GPU.
+
 ## Data structure
 
 Our data is structured in the following way:
@@ -55,7 +58,7 @@ Data/
     Plate3/
 ```
 ### Data availability
-Datasets to reproduce our results in our paper are available
+Datasets to reproduce our results in our paper are available at https://sandbox.zenodo.org/record/1080300#.YsX7f3XMIaz
 
 ## Usage
 ```python
