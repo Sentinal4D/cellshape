@@ -55,7 +55,9 @@ Data/
             Blebbistatin/
             ...
     Plate2/
+        stacked_pointcloud/
     Plate3/
+        stacked_pointcloud/
 ```
 ### Data availability
 Datasets to reproduce our results in our paper are available at https://sandbox.zenodo.org/record/1080300#.YsX7f3XMIaz
