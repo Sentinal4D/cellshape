@@ -20,10 +20,10 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 This is a Python package for 3D cell shape features and classes using deep learning. Please refer to our preprint on bioRxiv [here](https://www.biorxiv.org/content/10.1101/2022.06.17.496550v1).
 
 cellshape is the main package which imports from sub-packages:
-- [cellshape-helper](https://github.com/Sentinal4D/cellshape-helper)
-- cellshape-cloud: <https://github.com/Sentinal4D/cellshape-cloud> 
-- cellshape-voxel: <https://github.com/Sentinal4D/cellshape-voxel>
-- cellshape-cluster: <https://github.com/Sentinal4D/cellshape-cluster>
+- [cellshape-helper](https://github.com/Sentinal4D/cellshape-helper): Facilitates point cloud generation from 3D binary masks.
+- [cellshape-cloud](https://github.com/Sentinal4D/cellshape-cloud): Implementations of graph-based autoencoders for shape representation learning on point cloud input data.
+- [cellshape-voxel](https://github.com/Sentinal4D/cellshape-voxel): Implementations of 3D convolutional autoencoders for shape representation learning on voxel input data.
+- [cellshape-cluster](https://github.com/Sentinal4D/cellshape-cluster): Implementation of deep embedded clustering to add to autoencoder models.
 
 ## Installation and requirements
 ### Dependencies
