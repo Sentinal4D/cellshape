@@ -33,6 +33,13 @@ cellshape is the main package which is made up of sub-packages:
 The software requires Python 3.7 or greater, `PyTorch`, `torchvision`, `pyntcloud`, `numpy`, `scikit-learn`, `tensorboard`, `tqdm`, `datetime`. This repo makes extensive use of [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster), [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper), and [`cellshape-voxel`](https://github.com/Sentinal4D/cellshape-voxel). to reproduce our results in our paper, only [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster) are needed.
 
 ### To install
+1. We recommend creating a new conda environment:
+```bash 
+conda create --name cellshape-env python=3.8
+conda activate cellshape-env
+pip install --upgrade pip
+```
+2. Install cellshape from pip
 ```bash
 pip install cellshape
 ```
@@ -60,9 +67,22 @@ Data/
         stacked_pointcloud/
 ```
 ### Data availability
-Datasets to reproduce our results in our paper are available at https://sandbox.zenodo.org/record/1080300#.YsX7f3XMIaz
+Datasets to reproduce our results in our paper are available [here](https://sandbox.zenodo.org/record/1080300#.YsX7f3XMIaz).
 
 ## Usage
+The following steps assume that one already has point cloud representations of cells or nuclei. If you need to generate point clouds from 3D binary masks please go to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper).
+
+The training procedure follows two steps:
+1. Training the DFN autoencoder to automatically learn shape features.
+2. Adding the clustering layer to refine shape features and learn shape classes simultaneous.
+
+Inference can be done after each step. 
+
+### 1. DFN autoencoder
+```bash
+
+```
+
 ```python
 import torch
 from torch.utils.data import DataLoader
