@@ -85,7 +85,7 @@ cellshape-train
 ### 1. Train DFN autoencoder
 ```bash
 cellshape-train \
---model_type "cloud \
+--model_type "cloud" \
 --train_type "pretrain" \
 --cloud_dataset_path "path/to/cellshapeData/" \
 --dataset_type "SingleCell" \
