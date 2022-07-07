@@ -1,4 +1,4 @@
-__version__ = "0.0.13-rc0"
+__version__ = "0.0.14-rc0"
 
 import cellshape_cloud as cloud
 import cellshape_cluster as cluster
