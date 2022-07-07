@@ -45,7 +45,7 @@ setup(
     },
     extry_points={
         "console_scripts": [
-            "cellshape_train=cellshape.main"
+            "cellshape_train=cellshape.cli:main"
                  }
     python_requires=">=3.7",
     packages=["cellshape"],
