@@ -43,7 +43,7 @@ setup(
             "flake8",
         ]
     },
-    extry_points={"console_scripts": ["cellshape_train=cellshape.train:main"]},
+    extry_points={"console_scripts": ["cellshape-train=cellshape.train:main"]},
     python_requires=">=3.7",
     packages=["cellshape"],
     package_dir={"cellshape": "cellshape"},

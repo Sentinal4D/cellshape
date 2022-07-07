@@ -60,7 +60,7 @@ def main():
     parser.add_argument(
         "--cloud_dataset_path",
         default="/home/mvries/Documents/CellShape/"
-        "UploadData/Dataset/TestConvert/TestPointCloud/",
+        "UploadData/cellshapeData/",
         type=str,
         help="Please provide the path to the " "dataset of the point clouds.",
     )
@@ -76,7 +76,7 @@ def main():
     parser.add_argument(
         "--dataframe_path",
         default="/home/mvries/Documents/CellShape/UploadData/"
-        "Dataset/all_data_removedwrong_ori_removedTwo.csv",
+        "cellshapeData/all_data_removedwrong_ori.csv",
         type=str,
         help="Please provide the path to the dataframe "
         "containing information on the dataset.",
