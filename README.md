@@ -84,9 +84,9 @@ cellshape-train -h
 cellshape-train \
 --model_type "cloud" \
 --train_type "pretrain" \
---cloud_dataset_path "path/to/cellshapeData/" \
+--cloud_dataset_path "path/to/cellshapeData/" \ # change to where you saved data
 --dataset_type "SingleCell" \
---dataframe_path "path/to/cellshapeData/all_data_stats.csv" \
+--dataframe_path "path/to/cellshapeData/all_data_stats.csv" \ # change to where you saved data
 --output_dir "path/to/output/"
 --num_epochs_autoencoder 250 \
 --encoder_type "dgcnn" \
