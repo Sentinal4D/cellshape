@@ -42,7 +42,7 @@ pip install cellshape
 ```
 
 ### Hardware requirements
-We have tested this software of an Ubuntu 20.04LTS with 128Gb RAM and NVIDIA Quadro RTX 6000 GPU.
+We have tested this software on an Ubuntu 20.04LTS with 128Gb RAM and NVIDIA Quadro RTX 6000 GPU.
 
 ## Data structure
 
