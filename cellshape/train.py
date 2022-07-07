@@ -6,7 +6,6 @@ import logging
 
 import cellshape_cloud as cscloud
 import cellshape_cluster as cscluster
-import cellshape_helper as cshelper
 from cellshape_cloud.vendor.chamfer_distance import ChamferLoss
 
 
@@ -67,7 +66,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--dataset_type",
-        default="Other",
+        default="SingleCell",
         type=str,
         choices=["SingleCell", "Other"],
         help="Please provide the type of dataset. "
@@ -192,25 +191,6 @@ if __name__ == "__main__":
     # First decide whether it is a cloud or a voxel model:
     # Lets' deal with cloud first
     if args.model_type == "cloud":
-        # Do we need to convert the data?
-        # Yes:
-        if args.cloud_convert:
-            if args.dataset_type == "SingleCell":
-                print("No need to convert as these are given.")
-            else:
-                print(
-                    f"Converting tif files from {args.tif_dataset_path}, \n"
-                    f"and saving mesh object files to"
-                    f" {args.mesh_dataset_path} \n"
-                    f"and point cloud files to {args.cloud_dataset_path}"
-                )
-                cshelper.tif_to_pc_directory(
-                    tif_directory=args.tif_dataset_path,
-                    save_mesh=args.mesh_dataset_path,
-                    save_points=args.cloud_dataset_path,
-                    num_points=args.num_points,
-                )
-
         # If no, continue.
         # Do we want to pretrain the autoencoder FIRST?
         # Yes
