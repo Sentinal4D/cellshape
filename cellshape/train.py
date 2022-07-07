@@ -32,9 +32,9 @@ def main():
     )
     parser.add_argument(
         "--train_type",
-        default="full",
+        default="DEC",
         type=str,
-        choices=["pretrain", "full"],
+        choices=["pretrain", "DEC"],
         help="Please provide the type of training mode: [pretrain, full]",
     )
     parser.add_argument(
@@ -150,7 +150,8 @@ def main():
         "--update_interval",
         default=1,
         type=int,
-        help="Please provide the update interval.",
+        help="How often to update the target "
+        "distribution for the kl divergence.",
     )
     parser.add_argument(
         "--gamma",
@@ -172,9 +173,10 @@ def main():
     )
     parser.add_argument(
         "--proximal",
-        default=0,
+        default=2,
         type=int,
-        help="Please provide the value of proximality "
+        help="Do you want to look at cells distal "
+        "or proximal to the coverslip?"
         "[0 = distal, 1 = proximal, 2 = both].",
     )
     parser.add_argument(
