@@ -9,7 +9,7 @@ import cellshape_cluster as cscluster
 from cellshape_cloud.vendor.chamfer_distance import ChamferLoss
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser(description="Cellshape")
     parser.add_argument(
         "--model_type",
@@ -199,7 +199,7 @@ if __name__ == "__main__":
             # clustering layer) ONLY?
             # Yes
             if args.train_type == "pretrain":
-                output = cscloud.train_autoencoder(args)
+                cscloud.train_autoencoder(args)
                 exit()
 
             # No, we want to train the full thing
@@ -416,3 +416,7 @@ if __name__ == "__main__":
                 divergence_tolerance=args.divergence_tolerance,
                 logging_info=logging_info,
             )
+
+
+if __name__ == "__main__":
+    main()
