@@ -78,9 +78,21 @@ The training procedure follows two steps:
 
 Inference can be done after each step. 
 
+For help on all command line options run:
+```bash
+cellshape-train
+```
 ### 1. Train DFN autoencoder
 ```bash
-python 
+cellshape-train \
+--model_type "cloud \
+--train_type "pretrain" \
+--cloud_dataset_path "path/to/cellshapeData/" \
+--dataset_type "SingleCell" \
+--dataframe_path "path/to/cellshapeData/all_data_stats.csv" \
+--output_dir "path/to/output/"
+--num_epochs_autoencoder 250 \
+--num_features 128 \
 ```
 
 ```python
