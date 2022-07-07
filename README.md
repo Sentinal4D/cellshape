@@ -49,7 +49,7 @@ We have tested this software of an Ubuntu 20.04LTS with 128Gb RAM and NVIDIA Qua
 Our data is structured in the following way:
 
 ```
-Data/
+cellshapeData/
     all_data_stats.csv
     Plate1/
         stacked_pointcloud/
