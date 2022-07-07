@@ -73,14 +73,14 @@ Datasets to reproduce our results in our paper are available [here](https://sand
 The following steps assume that one already has point cloud representations of cells or nuclei. If you need to generate point clouds from 3D binary masks please go to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper).
 
 The training procedure follows two steps:
-1. Training the DFN autoencoder to automatically learn shape features.
+1. Training the dynamic graph convolutional foldingnet (DFN) autoencoder to automatically learn shape features.
 2. Adding the clustering layer to refine shape features and learn shape classes simultaneous.
 
 Inference can be done after each step. 
 
-### 1. DFN autoencoder
+### 1. Train DFN autoencoder
 ```bash
-
+python 
 ```
 
 ```python
