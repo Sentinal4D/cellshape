@@ -80,7 +80,7 @@ Inference can be done after each step.
 
 For help on all command line options run:
 ```bash
-cellshape-train
+cellshape-train -h
 ```
 ### 1. Train DFN autoencoder
 ```bash
@@ -95,6 +95,12 @@ cellshape-train \
 --num_features 128 \
 ```
 
+This step will create an output directory `"path/to/output/"` with the subfolders: `nets`, `reports`, and `runs` which contain the model weights, logged outputs, and tensorboard runs respectively for each experiment. Each experiment is named with the following convention {encoder_type}_{decoder_type}_{num_features}_{train_type}_{xxx}, where {xxx} is a counter. To monitor the training using Tensorboard, run:
+```bash
+tensorboard --logdir "path/to/output/runs/"
+```
+
+### Add the clustering layer
 ```python
 import torch
 from torch.utils.data import DataLoader
