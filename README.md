@@ -32,7 +32,7 @@ The software requires Python 3.7 or greater, `PyTorch`, `torchvision`, `pyntclou
 ### To install
 1. We recommend creating a new conda environment:
 ```bash 
-conda create --name cellshape-env python=3.8
+conda create --name cellshape-env python=3.8 -y
 conda activate cellshape-env
 pip install --upgrade pip
 ```
