@@ -79,7 +79,7 @@ This data structure is only necessary if wanting to use our data. If you would l
 The following steps assume that one already has point cloud representations of cells or nuclei. If you need to generate point clouds from 3D binary masks please go to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper).
 
 ### Downloading the dataset
-We suggest testing our code on the data contained in `SamplePointCloudData.zip`. Please download this from [here](https://sandbox.zenodo.org/record/1080300#.YsX7f3XMIaz) and unzip the contents into a directory of your choice. For example, unzip the contents to your `/Documents/` directory, ie. the data is now in the path `/home/user/Documents/SamplePointCloudDataset/`. This is used as parameters in the steps below so please remember this path. This can be done in the terminal:
+We suggest testing our code on the data contained in `SamplePointCloudData.zip`. Please download this from [here](https://sandbox.zenodo.org/record/1080300#.YsX7f3XMIaz) and unzip the contents into a directory of your choice. We recommend doing this in your `~Documents/` folder. This is used as parameters in the steps below so please remember this path. This can be done in the terminal:
 1. Download with wget
 ```bash
 cd ~/Documents
@@ -90,7 +90,7 @@ wget https://sandbox.zenodo.org/record/1080300/files/SamplePointCloudDataset.zip
 unzip SamplePointCloudDataset.zip
 ```
 
-This will create a directory called `cellshapeSamplePointCloudDatset` under your `~Documents/` folder.
+This will create a directory called `cellshapeSamplePointCloudDatset` under your `~Documents/` folder, i.e. `/home/user/Documents/cellshapeSamplePointCloudDatset/`.
 
 ### Training
 The training procedure follows two steps:
