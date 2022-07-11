@@ -27,12 +27,12 @@ cellshape is the main package which imports from sub-packages:
 
 ## Installation and requirements
 ### Dependencies
-The software requires Python 3.7 or greater, `PyTorch`, `torchvision`, `pyntcloud`, `numpy`, `scikit-learn`, `tensorboard`, `tqdm`, `datetime`. This repo makes extensive use of [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster), [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper), and [`cellshape-voxel`](https://github.com/Sentinal4D/cellshape-voxel). to reproduce our results in our paper, only [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster) are needed.
+The software requires Python 3.7 or greater, [`PyTorch`](https://pytorch.org/), [`pyntcloud`](https://github.com/daavoo/pyntcloud), [`numpy`](https://numpy.org/), [`scikit-learn`](https://scikit-learn.org/stable/), `tensorboard`, [`tqdm`](https://github.com/tqdm/tqdm) (The full list is shown in the [setup.py](https://github.com/Sentinal4D/cellshape/blob/main/setup.py) file). This repo makes extensive use of [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster), [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper), and [`cellshape-voxel`](https://github.com/Sentinal4D/cellshape-voxel). To reproduce our results in our paper, only [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster) are needed.
 
 ### To install
-1. We recommend creating a new conda environment:
+1. We recommend creating a new conda environment. In the terminal, run:
 ```bash 
-conda create --name cellshape-env python=3.8
+conda create --name cellshape-env python=3.8 -y
 conda activate cellshape-env
 pip install --upgrade pip
 ```
@@ -40,12 +40,21 @@ pip install --upgrade pip
 ```bash
 pip install cellshape
 ```
+This should take ~5mins.
 
 ### Hardware requirements
-We have tested this software on an Ubuntu 20.04LTS with 128Gb RAM and NVIDIA Quadro RTX 6000 GPU.
+We have tested this software on an Ubuntu 20.04LTS and 18.04LTS with 128Gb RAM and NVIDIA Quadro RTX 6000 GPU.
 
-## Data structure
+## Data availability and structure
 
+### Data availability
+Datasets to reproduce our results in our paper are available [here](https://sandbox.zenodo.org/record/1080300#.YsX7f3XMIaz). 
+- SamplePointCloudData.zip contains a sample dataset of a point cloud of cells in order to test our code.
+- FullData.zip contains 3 plates of point cloud representations of cells for several treatments. This data can be used to reproduce our results.
+- Output.zip contains trained model weights and deep learning cell geometric features extracted using these trained models.
+- BinaryCallMasks.zip contains a sample set of binary masks of cells which can be used as input to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper) to test our point cloud generation code. 
+
+### Data structure
 Our data is structured in the following way:
 
 ```
@@ -63,11 +72,13 @@ cellshapeData/
     Plate3/
         stacked_pointcloud/
 ```
-### Data availability
-Datasets to reproduce our results in our paper are available [here](https://sandbox.zenodo.org/record/1080300#.YsX7f3XMIaz).
+
+
 
 ## Usage
 The following steps assume that one already has point cloud representations of cells or nuclei. If you need to generate point clouds from 3D binary masks please go to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper).
+
+We suggest testing our code on the `SamplePointCloudData.zip`. Please download this from [here](https://sandbox.zenodo.org/record/1080300#.YsX7f3XMIaz) and unzip the contents into a directory of your choice. For example, unzip the contents to your `/Documents/` directory, ie. the data is now in the path `/home/user/Documents/SamplePointCloudDataset/`. This is used as parameters in the steps below so please remember this path.
 
 The training procedure follows two steps:
 1. Training the dynamic graph convolutional foldingnet (DFN) autoencoder to automatically learn shape features.
@@ -75,46 +86,51 @@ The training procedure follows two steps:
 
 Inference can be done after each step. 
 
-For help on all command line options run:
+Our training functions are run through a command line interface with the command ```cellshape-train```.
+For help on all command line options run the following in the terminal:
 ```bash
 cellshape-train -h
 ```
 ### 1. Train DFN autoencoder
+The first step trains the autoencoder without the additional clustering layer. Run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, and `--output_dir` parmaeters to be specific to your directories. Usually, this would require only changing the word `user` in these paths.
+
 ```bash
 cellshape-train \
 --model_type "cloud" \
 --train_type "pretrain" \
---cloud_dataset_path "path/to/cellshapeData/" \ # change to where you saved data
+--cloud_dataset_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/" \
 --dataset_type "SingleCell" \
---dataframe_path "path/to/cellshapeData/all_data_stats.csv" \ # change to where you saved data
---output_dir "path/to/output/"
+--dataframe_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/small_data.csv" \
+--output_dir "/home/user/Documents/cellshapeOutput/" \
 --num_epochs_autoencoder 250 \
 --encoder_type "dgcnn" \
---decoder_type "foldingnetbasic"
+--decoder_type "foldingnetbasic" \
 --num_features 128 \
 ```
 
-This step will create an output directory `"path/to/output/"` with the subfolders: `nets`, `reports`, and `runs` which contain the model weights, logged outputs, and tensorboard runs respectively for each experiment. Each experiment is named with the following convention {encoder_type}_{decoder_type}_{num_features}_{train_type}_{xxx}, where {xxx} is a counter. For example, if this was the first experiment you have run, the trained model weights will be saved to: `path/to/output/nets/dgcnn_foldingnetbasic_128_pretrain_001.pt`.
+This step will create an output directory `/home/user/Documents/cellshapeOutput/` with the subfolders: `nets`, `reports`, and `runs` which contain the model weights, logged outputs, and tensorboard runs, respectively, for each experiment. Each experiment is named with the following convention {encoder_type}_{decoder_type}_{num_features}_{train_type}_{xxx}, where {xxx} is a counter. For example, if this was the first experiment you have run, the trained model weights will be saved to: `/home/user/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrained_001.pt`. This path will be used in the next step for the `--pretrained-path` parameter.
 
-To monitor the training using Tensorboard, run:
-```bash
-tensorboard --logdir "path/to/output/runs/"
-```
 
 ### 2. Add clustering layer to refine shape features and learn shape classes simultaneously
+The next step is to add the clustering layer to refine the model weights. As before, run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, `--output_dir`, and `--pretrained-path` parmaeters to be specific to your directories. Usually, this would require only changing the word `user` in these paths. 
 ```bash
 cellshape-train \
 --model_type "cloud" \
 --train_type "DEC" \
---pretrain False \ # this was done in the previous step
---cloud_dataset_path "path/to/cellshapeData/" \
+--pretrain False \
+--cloud_dataset_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/" \
 --dataset_type "SingleCell" \
---dataframe_path "path/to/cellshapeData/all_data_stats.csv" \
---output_dir "path/to/output/"
---num_epochs_clustering 250 \
+--dataframe_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/small_data.csv" \
+--output_dir "/home/user/Documents/cellshapeOutput/" \
 --num_features 128 \
 --num_clusters 5 \
---pretrained_path "path/to/output/nets/pretrained_autoencoder.pt" # path/to/output/nets/dgcnn_foldingnetbasic_128_pretrain_001.pt in our example
+--pretrained_path "/home/user/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrained_001.pt" \
+```
+
+To monitor the training using [Tensorboard](https://pytorch.org/docs/stable/tensorboard.html), in the terminal run:
+```bash
+pip install tensorboard
+tensorboard --logdir "/home/user/Documents/cellshapeOutput/runs/"
 ```
 
 ## For developers
