@@ -78,7 +78,7 @@ cellshapeData/
 ## Usage
 The following steps assume that one already has point cloud representations of cells or nuclei. If you need to generate point clouds from 3D binary masks please go to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper).
 
-We suggest testing our code on the `SamplePointCloudData.zip`. Please download this from [here](https://sandbox.zenodo.org/record/1080300#.YsX7f3XMIaz) and unzip the contents into a directory of your choice. For example, unzip the contents to your `/Documents/` directory, ie. the data is now in the path `/home/user/Documents/SamplePointCloudDataset/`.
+We suggest testing our code on the `SamplePointCloudData.zip`. Please download this from [here](https://sandbox.zenodo.org/record/1080300#.YsX7f3XMIaz) and unzip the contents into a directory of your choice. For example, unzip the contents to your `/Documents/` directory, ie. the data is now in the path `/home/user/Documents/SamplePointCloudDataset/`. This is used as parameters in the steps below so please remember this path.
 
 The training procedure follows two steps:
 1. Training the dynamic graph convolutional foldingnet (DFN) autoencoder to automatically learn shape features.
@@ -97,21 +97,17 @@ cellshape-train \
 --train_type "pretrain" \
 --cloud_dataset_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/" \
 --dataset_type "SingleCell" \
---dataframe_path "home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/small_data.csv" \
+--dataframe_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/small_data.csv" \
 --output_dir "/home/user/Documents/cellshapeOutput/" \
 --num_epochs_autoencoder 250 \
 --encoder_type "dgcnn" \
 --decoder_type "foldingnetbasic" \
 --num_features 128 \
+/
 ```
 
 This step will create an output directory `/home/user/Documents/cellshapeOutput/` with the subfolders: `nets`, `reports`, and `runs` which contain the model weights, logged outputs, and tensorboard runs, respectively, for each experiment. Each experiment is named with the following convention {encoder_type}_{decoder_type}_{num_features}_{train_type}_{xxx}, where {xxx} is a counter. For example, if this was the first experiment you have run, the trained model weights will be saved to: `/home/user/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrain_001.pt`.
 
-To monitor the training using [Tensorboard](https://pytorch.org/docs/stable/tensorboard.html), in the terminal run:
-```bash
-pip install tensorboard
-tensorboard --logdir "/home/user/Documents/cellshapeOutput/runs/"
-```
 
 ### 2. Add clustering layer to refine shape features and learn shape classes simultaneously
 ```bash
@@ -126,6 +122,12 @@ cellshape-train \
 --num_features 128 \
 --num_clusters 5 \
 --pretrained_path "/home/user/Documents/cellshapeOutput/nets/pretrained_autoencoder.pt" \
+```
+
+To monitor the training using [Tensorboard](https://pytorch.org/docs/stable/tensorboard.html), in the terminal run:
+```bash
+pip install tensorboard
+tensorboard --logdir "/home/user/Documents/cellshapeOutput/runs/"
 ```
 
 ## For developers
