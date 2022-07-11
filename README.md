@@ -95,13 +95,13 @@ cellshape-train -h
 cellshape-train \
 --model_type "cloud" \
 --train_type "pretrain" \
---cloud_dataset_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/" \ # change to where you saved data.
---dataset_type "SingleCell" \ # If using data structured differently choose "Other"
---dataframe_path "home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/small_data.csv" \ # change to where you saved data.
---output_dir "/home/user/Documents/cellshapeOutput/" # where you want to save resluts and logs.
+--cloud_dataset_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/" \
+--dataset_type "SingleCell" \
+--dataframe_path "home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/small_data.csv" \
+--output_dir "/home/user/Documents/cellshapeOutput/" \
 --num_epochs_autoencoder 250 \
 --encoder_type "dgcnn" \
---decoder_type "foldingnetbasic"
+--decoder_type "foldingnetbasic" \
 --num_features 128 \
 ```
 
@@ -119,14 +119,13 @@ cellshape-train \
 --model_type "cloud" \
 --train_type "DEC" \
 --pretrain False \ # this was done in the previous step
---cloud_dataset_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/" \ # change to where you saved data
+--cloud_dataset_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/" \
 --dataset_type "SingleCell" \
---dataframe_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/small_data.csv" \ # change to where you saved data
---output_dir "/home/user/Documents/cellshapeOutput/" # where you want to save resluts and logs.
---num_epochs_clustering 250 \
+--dataframe_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/small_data.csv" \
+--output_dir "/home/user/Documents/cellshapeOutput/" \
 --num_features 128 \
 --num_clusters 5 \
---pretrained_path "/home/user/Documents/cellshapeOutput/nets/pretrained_autoencoder.pt" # /home/user/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrain_001.pt in our example
+--pretrained_path "/home/user/Documents/cellshapeOutput/nets/pretrained_autoencoder.pt" \
 ```
 
 ## For developers
