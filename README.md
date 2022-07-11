@@ -30,7 +30,7 @@ cellshape is the main package which imports from sub-packages:
 The software requires Python 3.7 or greater, [`PyTorch`](https://pytorch.org/), [`pyntcloud`](https://github.com/daavoo/pyntcloud), [`numpy`](https://numpy.org/), [`scikit-learn`](https://scikit-learn.org/stable/), `tensorboard`, [`tqdm`](https://github.com/tqdm/tqdm) (The full list is shown in the [setup.py](https://github.com/Sentinal4D/cellshape/blob/main/setup.py) file). This repo makes extensive use of [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster), [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper), and [`cellshape-voxel`](https://github.com/Sentinal4D/cellshape-voxel). To reproduce our results in our paper, only [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster) are needed.
 
 ### To install
-1. We recommend creating a new conda environment:
+1. We recommend creating a new conda environment. In the terminal, run:
 ```bash 
 conda create --name cellshape-env python=3.8 -y
 conda activate cellshape-env
@@ -86,12 +86,13 @@ The training procedure follows two steps:
 
 Inference can be done after each step. 
 
-Our training functions are run through a command line interface with the command ```bash cellshape-train```
-For help on all command line options run:
+Our training functions are run through a command line interface with the command ```cellshape-train```.
+For help on all command line options run the following in the terminal:
 ```bash
 cellshape-train -h
 ```
 ### 1. Train DFN autoencoder
+The first step trains the autoencoder without the additional clustering layer. Run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, and `output_dir` to be specific to your directories. Usually, this would require only changing the word `user` in these paths.
 ```bash
 cellshape-train \
 --model_type "cloud" \
