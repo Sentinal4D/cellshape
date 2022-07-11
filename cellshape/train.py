@@ -9,6 +9,17 @@ import cellshape_cluster as cscluster
 from cellshape_cloud.vendor.chamfer_distance import ChamferLoss
 
 
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ("yes", "true", "t", "y", "1"):
+        return True
+    elif v.lower() in ("no", "false", "f", "n", "0"):
+        return False
+    else:
+        raise argparse.ArgumentTypeError("Boolean value expected.")
+
+
 def main():
     parser = argparse.ArgumentParser(description="Cellshape")
     parser.add_argument(
@@ -20,8 +31,8 @@ def main():
     )
     parser.add_argument(
         "--cloud_convert",
-        default=True,
-        type=bool,
+        default="False",
+        type=str2bool,
         help="Do you need to convert 3D images to point clouds?",
     )
     parser.add_argument(
@@ -39,8 +50,8 @@ def main():
     )
     parser.add_argument(
         "--pretrain",
-        default=True,
-        type=bool,
+        default="False",
+        type=str2bool,
         help="Please provide whether or not to pretrain the autoencoder",
     )
     parser.add_argument(
@@ -181,14 +192,14 @@ def main():
     )
     parser.add_argument(
         "--pretrained_path",
-        default="/home/mvries/Documents/CellShape/"
-        "UploadData/Models/cloud_autoencoder/"
-        "dgcnn_foldingnet_128_001.pt",
+        default=None,
         type=str,
         help="Please provide the path to a pretrained autoencoder.",
     )
 
     args = parser.parse_args()
+    for arg, value in sorted(vars(args).items()):
+        print(f"Argument {arg}: {value}")
 
     # First decide whether it is a cloud or a voxel model:
     # Lets' deal with cloud first
@@ -288,6 +299,7 @@ def main():
         # maybe we already have one, or we want
         # to not start from pretrained features
         else:
+            print(f"args pretrain == {args.pretrain}")
             autoencoder = cscloud.CloudAutoEncoder(
                 num_features=args.num_features,
                 k=args.k,
@@ -298,11 +310,11 @@ def main():
             file_not_found = False
             wrong_architecture = False
             try:
-                checkpoint = torch.load(args.pretrained_path)
+                checkpoint = torch.load(str(args.pretrained_path))
             except FileNotFoundError:
                 print(
                     "This model doesn't exist."
-                    "Please check the provided path and try again."
+                    " Please check the provided path and try again."
                 )
                 checkpoint = {"model_state_dict": None}
                 file_not_found = True
@@ -349,7 +361,7 @@ def main():
 
             optimizer = torch.optim.Adam(
                 autoencoder.parameters(),
-                lr=args.learning_rate_cluster * 16 / args.batch_size,
+                lr=args.learning_rate_clustering * 16 / args.batch_size,
                 betas=(0.9, 0.999),
                 weight_decay=1e-6,
             )
@@ -403,7 +415,6 @@ def main():
 
             for arg, value in sorted(vars(args).items()):
                 logging.info(f"Argument {arg}: {value}")
-                print(f"Argument {arg}: {value}")
 
             cscluster.train(
                 model=model,
