@@ -92,7 +92,7 @@ cellshape-train \
 --model_type "cloud" \
 --train_type "pretrain" \
 --cloud_dataset_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/" \ # change to where you saved data.
---dataset_type "SingleCell" \
+--dataset_type "SingleCell" \ # If using data structured differently choose "Other"
 --dataframe_path "home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/small_data.csv" \ # change to where you saved data.
 --output_dir "/home/user/Documents/cellshapeOutput/" # where you want to save resluts and logs.
 --num_epochs_autoencoder 250 \
