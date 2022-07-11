@@ -103,7 +103,6 @@ cellshape-train \
 --encoder_type "dgcnn" \
 --decoder_type "foldingnetbasic" \
 --num_features 128 \
-/
 ```
 
 This step will create an output directory `/home/user/Documents/cellshapeOutput/` with the subfolders: `nets`, `reports`, and `runs` which contain the model weights, logged outputs, and tensorboard runs, respectively, for each experiment. Each experiment is named with the following convention {encoder_type}_{decoder_type}_{num_features}_{train_type}_{xxx}, where {xxx} is a counter. For example, if this was the first experiment you have run, the trained model weights will be saved to: `/home/user/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrain_001.pt`.
