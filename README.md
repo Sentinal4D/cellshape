@@ -90,7 +90,7 @@ wget https://sandbox.zenodo.org/record/1080300/files/SamplePointCloudDataset.zip
 unzip SamplePointCloudDataset.zip
 ```
 
-This will create a directory called `cellshapeSamplePointCloudDatset` under your `~Documents/` folder, i.e. `/home/USER/Documents/cellshapeSamplePointCloudDatset/` (USER will be different for you).
+This will create a directory called `cellshapeSamplePointCloudDatset` under your `~Documents/` folder, i.e. `/home/USER/Documents/cellshapeSamplePointCloudDatset/` (`USER` will be different for you).
 
 ### Training
 The training procedure follows two steps:
@@ -125,7 +125,7 @@ This step will create an output directory `/home/USER/Documents/cellshapeOutput/
 
 
 #### 2. Add clustering layer to refine shape features and learn shape classes simultaneously
-The next step is to add the clustering layer to refine the model weights. As before, run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, `--output_dir`, and `--pretrained-path` parmaeters to be specific to your directories. Usually, this would require only changing the word `user` in these paths. 
+The next step is to add the clustering layer to refine the model weights. As before, run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, `--output_dir`, and `--pretrained-path` parmaeters to be specific to your directories. Usually, this would require only changing the word `USER` in these paths. 
 ```bash
 cellshape-train \
 --model_type "cloud" \
