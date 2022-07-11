@@ -108,7 +108,7 @@ cellshape-train \
 --num_features 128 \
 ```
 
-This step will create an output directory `/home/user/Documents/cellshapeOutput/` with the subfolders: `nets`, `reports`, and `runs` which contain the model weights, logged outputs, and tensorboard runs, respectively, for each experiment. Each experiment is named with the following convention {encoder_type}_{decoder_type}_{num_features}_{train_type}_{xxx}, where {xxx} is a counter. For example, if this was the first experiment you have run, the trained model weights will be saved to: `/home/user/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrain_001.pt`. This path will be used in the next step for the `--pretrained-path` parameter.
+This step will create an output directory `/home/user/Documents/cellshapeOutput/` with the subfolders: `nets`, `reports`, and `runs` which contain the model weights, logged outputs, and tensorboard runs, respectively, for each experiment. Each experiment is named with the following convention {encoder_type}_{decoder_type}_{num_features}_{train_type}_{xxx}, where {xxx} is a counter. For example, if this was the first experiment you have run, the trained model weights will be saved to: `/home/user/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrained_001.pt`. This path will be used in the next step for the `--pretrained-path` parameter.
 
 
 ### 2. Add clustering layer to refine shape features and learn shape classes simultaneously
@@ -124,7 +124,7 @@ cellshape-train \
 --output_dir "/home/user/Documents/cellshapeOutput/" \
 --num_features 128 \
 --num_clusters 5 \
---pretrained_path "/home/user/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrain_001.pt" \
+--pretrained_path "/home/user/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrained_001.pt" \
 ```
 
 To monitor the training using [Tensorboard](https://pytorch.org/docs/stable/tensorboard.html), in the terminal run:
