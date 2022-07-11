@@ -92,7 +92,8 @@ For help on all command line options run the following in the terminal:
 cellshape-train -h
 ```
 ### 1. Train DFN autoencoder
-The first step trains the autoencoder without the additional clustering layer. Run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, and `output_dir` to be specific to your directories. Usually, this would require only changing the word `user` in these paths.
+The first step trains the autoencoder without the additional clustering layer. Run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, and `--output_dir` parmaeters to be specific to your directories. Usually, this would require only changing the word `user` in these paths.
+
 ```bash
 cellshape-train \
 --model_type "cloud" \
@@ -107,10 +108,11 @@ cellshape-train \
 --num_features 128 \
 ```
 
-This step will create an output directory `/home/user/Documents/cellshapeOutput/` with the subfolders: `nets`, `reports`, and `runs` which contain the model weights, logged outputs, and tensorboard runs, respectively, for each experiment. Each experiment is named with the following convention {encoder_type}_{decoder_type}_{num_features}_{train_type}_{xxx}, where {xxx} is a counter. For example, if this was the first experiment you have run, the trained model weights will be saved to: `/home/user/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrain_001.pt`.
+This step will create an output directory `/home/user/Documents/cellshapeOutput/` with the subfolders: `nets`, `reports`, and `runs` which contain the model weights, logged outputs, and tensorboard runs, respectively, for each experiment. Each experiment is named with the following convention {encoder_type}_{decoder_type}_{num_features}_{train_type}_{xxx}, where {xxx} is a counter. For example, if this was the first experiment you have run, the trained model weights will be saved to: `/home/user/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrain_001.pt`. This path will be used in the next step for the `--pretrained-path` parameter.
 
 
 ### 2. Add clustering layer to refine shape features and learn shape classes simultaneously
+The next step is to add the clustering layer to refine the model weights. As before, run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, `--output_dir`, and `--pretrained-path` parmaeters to be specific to your directories. Usually, this would require only changing the word `user` in these paths. 
 ```bash
 cellshape-train \
 --model_type "cloud" \
@@ -122,7 +124,7 @@ cellshape-train \
 --output_dir "/home/user/Documents/cellshapeOutput/" \
 --num_features 128 \
 --num_clusters 5 \
---pretrained_path "/home/user/Documents/cellshapeOutput/nets/pretrained_autoencoder.pt" \
+--pretrained_path "/home/user/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrain_001.pt" \
 ```
 
 To monitor the training using [Tensorboard](https://pytorch.org/docs/stable/tensorboard.html), in the terminal run:
