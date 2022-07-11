@@ -64,7 +64,12 @@ cellshapeData/
         stacked_pointcloud/
 ```
 ### Data availability
-Datasets to reproduce our results in our paper are available [here](https://sandbox.zenodo.org/record/1080300#.YsX7f3XMIaz).
+Datasets to reproduce our results in our paper are available [here](https://sandbox.zenodo.org/record/1080300#.YsX7f3XMIaz). 
+- SamplePointCloudData.zip contains a sample dataset of a point cloud of cells in order to test our code.
+- FullData.zip contains 3 plates of point cloud representations of cells for several treatments. This data can be usedto reproduce our results.
+- Output.zip contains trained model weights and deep learning cell geometric features extracted using these trained models.
+- BinaryCallMasks.zip contains a sample set of binary masks of cells which can be used as input to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper) to test our point cloud generation code. 
+
 
 ## Usage
 The following steps assume that one already has point cloud representations of cells or nuclei. If you need to generate point clouds from 3D binary masks please go to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper).
