@@ -74,6 +74,8 @@ Datasets to reproduce our results in our paper are available [here](https://sand
 ## Usage
 The following steps assume that one already has point cloud representations of cells or nuclei. If you need to generate point clouds from 3D binary masks please go to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper).
 
+We suggest testing our code on the `SamplePointCloudData.zip`. Please download this from [here](https://sandbox.zenodo.org/record/1080300#.YsX7f3XMIaz) and unzip the contents into a directory of your choice. For example. unzip the contents to your `/Documents/` directory, ie. the data is now in the path `/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/`.
+
 The training procedure follows two steps:
 1. Training the dynamic graph convolutional foldingnet (DFN) autoencoder to automatically learn shape features.
 2. Adding the clustering layer to refine shape features and learn shape classes simultaneously.
@@ -89,21 +91,21 @@ cellshape-train -h
 cellshape-train \
 --model_type "cloud" \
 --train_type "pretrain" \
---cloud_dataset_path "path/to/cellshapeData/" \ # change to where you saved data
+--cloud_dataset_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/" \ # change to where you saved data
 --dataset_type "SingleCell" \
---dataframe_path "path/to/cellshapeData/all_data_stats.csv" \ # change to where you saved data
---output_dir "path/to/output/"
+--dataframe_path "home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/small_data.csv" \ # change to where you saved data
+--output_dir "/home/user/Documents/cellshapeOutput/" # where you want to save resluts and logs.
 --num_epochs_autoencoder 250 \
 --encoder_type "dgcnn" \
 --decoder_type "foldingnetbasic"
 --num_features 128 \
 ```
 
-This step will create an output directory `"path/to/output/"` with the subfolders: `nets`, `reports`, and `runs` which contain the model weights, logged outputs, and tensorboard runs respectively for each experiment. Each experiment is named with the following convention {encoder_type}_{decoder_type}_{num_features}_{train_type}_{xxx}, where {xxx} is a counter. For example, if this was the first experiment you have run, the trained model weights will be saved to: `path/to/output/nets/dgcnn_foldingnetbasic_128_pretrain_001.pt`.
+This step will create an output directory `"/home/user/Documents/cellshapeOutput/"` with the subfolders: `nets`, `reports`, and `runs` which contain the model weights, logged outputs, and tensorboard runs respectively for each experiment. Each experiment is named with the following convention {encoder_type}_{decoder_type}_{num_features}_{train_type}_{xxx}, where {xxx} is a counter. For example, if this was the first experiment you have run, the trained model weights will be saved to: `/home/user/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrain_001.pt`.
 
 To monitor the training using Tensorboard, run:
 ```bash
-tensorboard --logdir "path/to/output/runs/"
+tensorboard --logdir "/home/user/Documents/cellshapeOutput/runs/"
 ```
 
 ### 2. Add clustering layer to refine shape features and learn shape classes simultaneously
@@ -112,14 +114,14 @@ cellshape-train \
 --model_type "cloud" \
 --train_type "DEC" \
 --pretrain False \ # this was done in the previous step
---cloud_dataset_path "path/to/cellshapeData/" \
+--cloud_dataset_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/" \ # change to where you saved data
 --dataset_type "SingleCell" \
---dataframe_path "path/to/cellshapeData/all_data_stats.csv" \
---output_dir "path/to/output/"
+--dataframe_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/small_data.csv" \ # change to where you saved data
+--output_dir "/home/user/Documents/cellshapeOutput/" # where you want to save resluts and logs.
 --num_epochs_clustering 250 \
 --num_features 128 \
 --num_clusters 5 \
---pretrained_path "path/to/output/nets/pretrained_autoencoder.pt" # path/to/output/nets/dgcnn_foldingnetbasic_128_pretrain_001.pt in our example
+--pretrained_path "/home/user/Documents/cellshapeOutput/nets/pretrained_autoencoder.pt" # /home/user/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrain_001.pt in our example
 ```
 
 ## For developers
