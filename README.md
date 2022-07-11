@@ -114,7 +114,7 @@ This step will create an output directory `/home/user/Documents/cellshapeOutput/
 cellshape-train \
 --model_type "cloud" \
 --train_type "DEC" \
---pretrain False \ # this was done in the previous step
+--pretrain False \
 --cloud_dataset_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/" \
 --dataset_type "SingleCell" \
 --dataframe_path "/home/user/Documents/SamplePointCloudDataset/cellshapeSamplePointCloudDataset/small_data.csv" \
