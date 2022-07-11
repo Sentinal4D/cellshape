@@ -10,6 +10,17 @@ import cellshape_helper as cshelper
 from cellshape_cloud.vendor.chamfer_distance import ChamferLoss
 
 
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ("yes", "true", "t", "y", "1"):
+        return True
+    elif v.lower() in ("no", "false", "f", "n", "0"):
+        return False
+    else:
+        raise argparse.ArgumentTypeError("Boolean value expected.")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Cellshape")
     parser.add_argument(
@@ -22,7 +33,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--cloud_convert",
         default=True,
-        type=bool,
+        type=str2bool,
         help="Do you need to convert 3D images to point clouds?",
     )
     parser.add_argument(
@@ -41,7 +52,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--pretrain",
         default=True,
-        type=bool,
+        type=str2bool,
         help="Please provide whether or not to pretrain the autoencoder",
     )
     parser.add_argument(
