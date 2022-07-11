@@ -86,6 +86,7 @@ The training procedure follows two steps:
 
 Inference can be done after each step. 
 
+Our training functions are run through a command line interface with the command ```bash cellshape-train```
 For help on all command line options run:
 ```bash
 cellshape-train -h
