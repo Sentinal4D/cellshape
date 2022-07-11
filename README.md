@@ -58,12 +58,12 @@ Datasets to reproduce our results in our paper are available [here](https://sand
 Our data is structured in the following way:
 
 ```
-cellshapeData/
-    all_data_stats.csv
+cellshapeSamplePointCloudDatset/
+    small_data.csv
     Plate1/
         stacked_pointcloud/
             Binimetinib/
-                0010_0001_accelerator_20210315_bakal01_erk_main_21-03-15_12-37-27.ply
+                0010_0120_accelerator_20210315_bakal01_erk_main_21-03-15_12-37-27.ply
                 ...
             Blebbistatin/
             ...
@@ -80,7 +80,7 @@ The following steps assume that one already has point cloud representations of c
 
 ### Downloading the dataset
 We suggest testing our code on the data contained in `SamplePointCloudData.zip`. Please download the data and unzip the contents into a directory of your choice. We recommend doing this in your `~Documents/` folder. This is used as parameters in the steps below so please remember this path. Downloading and unzipping the data can be done in the terminal:
-1. Download the data into the `Documents/` folder with wget
+1. Download the data into the `~/Documents/` folder with wget
 ```bash
 cd ~/Documents
 wget https://sandbox.zenodo.org/record/1080300/files/SamplePointCloudDataset.zip
