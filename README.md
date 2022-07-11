@@ -133,6 +133,9 @@ pip install tensorboard
 tensorboard --logdir "/home/user/Documents/cellshapeOutput/runs/"
 ```
 
+### Inference
+Example inference notebooks can be found in the `docs/notebooks/` folder.
+
 ## For developers
 * Fork the repository
 * Clone your fork
