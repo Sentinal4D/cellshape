@@ -79,7 +79,7 @@ This data structure is only necessary if wanting to use our data. If you would l
 The following steps assume that one already has point cloud representations of cells or nuclei. If you need to generate point clouds from 3D binary masks please go to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper).
 
 ### Downloading the dataset
-We suggest testing our code on the data contained in `SamplePointCloudData.zip`. Please download the data and unzip the contents into a directory of your choice. We recommend doing this in your `~Documents/` folder. This is used as parameters in the steps below so please remember this path. Downloading and unzipping the data can be done in the terminal:
+We suggest testing our code on the data contained in `SamplePointCloudData.zip`. Please download the data and unzip the contents into a directory of your choice. We recommend doing this in your `~Documents/` folder. This is used as parameters in the steps below, so please remember where you download the data to. Downloading and unzipping the data can be done in the terminal:
 1. Download the data into the `~/Documents/` folder with wget
 ```bash
 cd ~/Documents
@@ -105,17 +105,21 @@ For help on all command line options run the following in the terminal:
 cellshape-train -h
 ```
 #### 1. Train DFN autoencoder
-The first step trains the autoencoder without the additional clustering layer. Run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, and `--output_dir` parmaeters to be specific to your directories. Usually, this would require only changing the word `USER` in these paths. To test the code, we train for 5 epochs.
+The first step trains the autoencoder without the additional clustering layer. Run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, and `--output_dir` parmaeters to be specific to your directories, if you have saved the data somewhere else. To test the code, we train for 5 epochs. First make sure you're in the directory where you downloaded the data to. If this is your `~/Documents/ folder, go into this:
+```bash
+cd ~/Documents
+```
+Then run the following:
 
 ```bash
 cellshape-train \
 --model_type "cloud" \
 --pretrain "True" \
 --train_type "pretrain" \
---cloud_dataset_path "/home/USER/Documents/cellshapeSamplePointCloudDataset/" \
+--cloud_dataset_path "./cellshapeSamplePointCloudDataset/" \
 --dataset_type "SingleCell" \
---dataframe_path "/home/USER/Documents/cellshapeSamplePointCloudDataset/small_data.csv" \
---output_dir "/home/USER/Documents/cellshapeOutput/" \
+--dataframe_path "./cellshapeSamplePointCloudDataset/small_data.csv" \
+--output_dir "./cellshapeOutput/" \
 --num_epochs_autoencoder 5 \
 --encoder_type "dgcnn" \
 --decoder_type "foldingnetbasic" \
@@ -126,25 +130,27 @@ This step will create an output directory `/home/USER/Documents/cellshapeOutput/
 
 
 #### 2. Add clustering layer to refine shape features and learn shape classes simultaneously
-The next step is to add the clustering layer to refine the model weights. As before, run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, `--output_dir`, and `--pretrained-path` parmaeters to be specific to your directories. Usually, this would require only changing the word `USER` in these paths. 
+The next step is to add the clustering layer to refine the model weights. As before, run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, `--output_dir`, and `--pretrained-path` parmaeters to be specific to your directories. If you have followed the previous steps, then you will still be in the `~Documents/ path. In the same terminal, run:
+
 ```bash
 cellshape-train \
 --model_type "cloud" \
 --train_type "DEC" \
 --pretrain False \
---cloud_dataset_path "/home/USER/Documents/cellshapeSamplePointCloudDataset/" \
+--cloud_dataset_path "./cellshapeSamplePointCloudDataset/" \
 --dataset_type "SingleCell" \
---dataframe_path "/home/USER/Documents/cellshapeSamplePointCloudDataset/small_data.csv" \
---output_dir "/home/USER/Documents/cellshapeOutput/" \
+--dataframe_path "./cellshapeSamplePointCloudDataset/small_data.csv" \
+--output_dir "./cellshapeOutput/" \
 --num_features 128 \
 --num_clusters 5 \
---pretrained_path "/home/USER/Documents/cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrained_001.pt" \
+--pretrained_path "./cellshapeOutput/nets/dgcnn_foldingnetbasic_128_pretrained_001.pt" \
 ```
 
-To monitor the training using [Tensorboard](https://pytorch.org/docs/stable/tensorboard.html), in the terminal run:
+To monitor the training using [Tensorboard](https://pytorch.org/docs/stable/tensorboard.html), in a new terminal run:
 ```bash
 pip install tensorboard
-tensorboard --logdir "/home/USER/Documents/cellshapeOutput/runs/"
+cd ~/Documents
+tensorboard --logdir "./cellshapeOutput/runs/"
 ```
 
 #### Alternatively, the training steps can be run sequentially through one command line
@@ -154,10 +160,10 @@ cellshape-train \
 --model_type "cloud" \
 --train_type "DEC" \
 --pretrain True \
---cloud_dataset_path "/home/USER/Documents/cellshapeSamplePointCloudDataset/" \
+--cloud_dataset_path "./cellshapeSamplePointCloudDataset/" \
 --dataset_type "SingleCell" \
---dataframe_path "/home/USER/Documents/cellshapeSamplePointCloudDataset/small_data.csv" \
---output_dir "/home/USER/Documents/cellshapeOutput/" \
+--dataframe_path "./cellshapeSamplePointCloudDataset/small_data.csv" \
+--output_dir "./cellshapeOutput/" \
 --num_features 128 \
 --num_clusters 5 \
 ```
