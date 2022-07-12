@@ -146,6 +146,22 @@ pip install tensorboard
 tensorboard --logdir "/home/USER/Documents/cellshapeOutput/runs/"
 ```
 
+#### Alternatively, the training steps can be run sequentially through one command line
+This would be to state that you would like to `pretrain` and that you want to train `DEC`. 
+```bash
+cellshape-train \
+--model_type "cloud" \
+--train_type "DEC" \
+--pretrain True \
+--cloud_dataset_path "/home/USER/Documents/cellshapeSamplePointCloudDataset/" \
+--dataset_type "SingleCell" \
+--dataframe_path "/home/USER/Documents/cellshapeSamplePointCloudDataset/small_data.csv" \
+--output_dir "/home/USER/Documents/cellshapeOutput/" \
+--num_features 128 \
+--num_clusters 5 \
+```
+
+
 ### Inference
 Example inference notebooks can be found in the `docs/notebooks/` folder.
 
