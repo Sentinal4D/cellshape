@@ -110,6 +110,7 @@ The first step trains the autoencoder without the additional clustering layer. R
 ```bash
 cellshape-train \
 --model_type "cloud" \
+--pretrain "True" \
 --train_type "pretrain" \
 --cloud_dataset_path "/home/USER/Documents/cellshapeSamplePointCloudDataset/" \
 --dataset_type "SingleCell" \
