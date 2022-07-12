@@ -72,7 +72,7 @@ cellshapeSamplePointCloudDatset/
     Plate3/
         stacked_pointcloud/
 ```
-This data structure is only necessary if wanting to use our data. If you would like to use your own dataset, you may structure it in any way as long as the extension of the point clouds are `.ply`. If using your own data structure, please use the define the parameter `--dataset_type` as `"Other"`.
+This data structure is only necessary if wanting to use our data. If you would like to use your own dataset, you may structure it in any way as long as the extension of the point clouds are `.ply`. If using your own data structure, please define the parameter `--dataset_type` as `"Other"`.
 
 
 ## Usage
