@@ -36,7 +36,7 @@ conda create --name cellshape-env python=3.8 -y
 conda activate cellshape-env
 pip install --upgrade pip
 ```
-2. Install cellshape from pip
+2. Install cellshape from pip. In the same terminal, run:
 ```bash
 pip install cellshape
 ```
@@ -76,7 +76,7 @@ This data structure is only necessary if wanting to use our data. If you would l
 
 
 ## Usage
-The following steps assume that one already has point cloud representations of cells or nuclei. If you need to generate point clouds from 3D binary masks please go to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper).
+The following steps assume that one already has point cloud representations of cells or nuclei. If you need to generate point clouds from 3D binary masks, please go to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper).
 
 ### Downloading the dataset
 We suggest testing our code on the data contained in `SamplePointCloudData.zip`. Please download the data and unzip the contents into a directory of your choice. We recommend doing this in your `~Documents/` folder. This is used as parameters in the steps below, so please remember where you download the data to. Downloading and unzipping the data can be done in the terminal:
@@ -100,7 +100,7 @@ The training procedure follows two steps:
 Inference can be done after each step. 
 
 Our training functions are run through a command line interface with the command ```cellshape-train```.
-For help on all command line options run the following in the terminal:
+For help on all command line options, run the following in the terminal:
 ```bash
 cellshape-train -h
 ```
