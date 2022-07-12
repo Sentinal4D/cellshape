@@ -55,7 +55,7 @@ Datasets to reproduce our results in our paper are available [here](https://sand
 - BinaryCallMasks.zip contains a sample set of binary masks of cells which can be used as input to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper) to test our point cloud generation code. 
 
 ### Data structure
-Our data is structured in the following way:
+We suggest testing our code on the data contained in `SamplePointCloudData.zip`. This data is structured in the following way:
 
 ```
 cellshapeSamplePointCloudDatset/
