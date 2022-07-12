@@ -27,13 +27,14 @@ def main():
         default="cloud",
         type=str,
         choices=["cloud", "voxel"],
-        help="Please provide the type of model: [cloud, voxel]",
+        help="Please provide the type of model: [cloud, voxel].",
     )
     parser.add_argument(
         "--cloud_convert",
         default="False",
         type=str2bool,
-        help="Do you need to convert 3D images to point clouds?",
+        help="Do you need to convert 3D images to point clouds?"
+        " If you do, please go to cellshape-helper.",
     )
     parser.add_argument(
         "--num_points",
@@ -46,32 +47,31 @@ def main():
         default="DEC",
         type=str,
         choices=["pretrain", "DEC"],
-        help="Please provide the type of training mode: [pretrain, full]",
+        help="Please provide the type of training mode: [pretrain, full]."
+        " 'pretrain' is to train the autoencoder only, "
+        "'DEC' is to add the clustering layer.",
     )
     parser.add_argument(
         "--pretrain",
         default="True",
         type=str2bool,
-        help="Please provide whether or not to pretrain the autoencoder",
+        help="Please provide whether or not to pretrain the autoencoder.",
     )
     parser.add_argument(
         "--tif_dataset_path",
-        default="/home/mvries/Documents/CellShape/"
-        "UploadData/Dataset/TestConvert/TestTiff/",
+        default="./TestTiff/",
         type=str,
         help="Please provide the path to the " "dataset of 3D tif images",
     )
     parser.add_argument(
         "--mesh_dataset_path",
-        default="/home/mvries/Documents/CellShape/"
-        "UploadData/Dataset/TestConvert/TestMesh/",
+        default="./TestMesh/",
         type=str,
         help="Please provide the path to the " "dataset of 3D meshes.",
     )
     parser.add_argument(
         "--cloud_dataset_path",
-        default="/home/mvries/Documents/CellShape/"
-        "UploadData/cellshapeData/",
+        default="./TestCloud/",
         type=str,
         help="Please provide the path to the " "dataset of the point clouds.",
     )
@@ -86,15 +86,14 @@ def main():
     )
     parser.add_argument(
         "--dataframe_path",
-        default="/home/mvries/Documents/CellShape/UploadData/"
-        "cellshapeData/all_data_removedwrong_ori.csv",
+        default="./all_data_removedwrong_ori.csv",
         type=str,
         help="Please provide the path to the dataframe "
         "containing information on the dataset.",
     )
     parser.add_argument(
         "--output_dir",
-        default="/home/mvries/Documents/Testing_output/",
+        default="./Test_output/",
         type=str,
         help="Please provide the path for where to save output.",
     )
@@ -108,7 +107,7 @@ def main():
         "--num_epochs_clustering",
         default=3,
         type=int,
-        help="Provide the number of epochs for the autoencoder training.",
+        help="Provide the number of epochs for the clustering training.",
     )
     parser.add_argument(
         "--num_features",
@@ -129,12 +128,14 @@ def main():
         "--encoder_type",
         default="dgcnn",
         type=str,
+        choices=["dgcnn", "foldingnet"],
         help="Please provide the type of encoder.",
     )
     parser.add_argument(
         "--decoder_type",
         default="foldingnetbasic",
         type=str,
+        choices=["foldingnetbasic", "foldingnet"],
         help="Please provide the type of decoder.",
     )
     parser.add_argument(
