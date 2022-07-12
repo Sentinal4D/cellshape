@@ -50,7 +50,7 @@ def main():
     )
     parser.add_argument(
         "--pretrain",
-        default="False",
+        default="True",
         type=str2bool,
         help="Please provide whether or not to pretrain the autoencoder",
     )
@@ -318,6 +318,10 @@ def main():
                 )
                 checkpoint = {"model_state_dict": None}
                 file_not_found = True
+                everything_working = False
+            except AttributeError:
+                print("No pretrained model given.")
+                checkpoint = {"model_state_dict": None}
                 everything_working = False
             try:
                 autoencoder.load_state_dict(checkpoint["model_state_dict"])
