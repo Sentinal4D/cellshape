@@ -105,7 +105,7 @@ For help on all command line options run the following in the terminal:
 cellshape-train -h
 ```
 #### 1. Train DFN autoencoder
-The first step trains the autoencoder without the additional clustering layer. Run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, and `--output_dir` parmaeters to be specific to your directories. Usually, this would require only changing the word `USER` in these paths.
+The first step trains the autoencoder without the additional clustering layer. Run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, and `--output_dir` parmaeters to be specific to your directories. Usually, this would require only changing the word `USER` in these paths. To test the code, we train for 5 epochs.
 
 ```bash
 cellshape-train \
@@ -116,7 +116,7 @@ cellshape-train \
 --dataset_type "SingleCell" \
 --dataframe_path "/home/USER/Documents/cellshapeSamplePointCloudDataset/small_data.csv" \
 --output_dir "/home/USER/Documents/cellshapeOutput/" \
---num_epochs_autoencoder 250 \
+--num_epochs_autoencoder 5 \
 --encoder_type "dgcnn" \
 --decoder_type "foldingnetbasic" \
 --num_features 128 \
