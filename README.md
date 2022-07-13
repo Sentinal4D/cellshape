@@ -130,7 +130,7 @@ This step will create an output directory `/home/USER/Documents/cellshapeOutput/
 
 
 #### 2. Add clustering layer to refine shape features and learn shape classes simultaneously
-The next step is to add the clustering layer to refine the model weights. As before, run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, `--output_dir`, and `--pretrained-path` parmaeters to be specific to your directories. If you have followed the previous steps, then you will still be in the `~Documents/ path. In the same terminal, run:
+The next step is to add the clustering layer to refine the model weights. As before, run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, `--output_dir`, and `--pretrained-path` parmaeters to be specific to your directories. If you have followed the previous steps, then you will still be in the `~Documents/` path. In the same terminal, run:
 
 ```bash
 cellshape-train \
