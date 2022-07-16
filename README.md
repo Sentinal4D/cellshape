@@ -79,7 +79,7 @@ This data structure is only necessary if wanting to use our data. If you would l
 The following steps assume that one already has point cloud representations of cells or nuclei. If you need to generate point clouds from 3D binary masks, please go to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper).
 
 ### Downloading the dataset
-We suggest testing our code on the data contained in `SamplePointCloudData.zip`. Please download the data and unzip the contents into a directory of your choice. We recommend doing this in your `~Documents/` folder. This is used as parameters in the steps below, so please remember where you download the data to. Downloading and unzipping the data can be done in the terminal:
+We suggest testing our code on the data contained in `SamplePointCloudData.zip`. Please download the data and unzip the contents into a directory of your choice. We recommend doing this in your `~Documents/` folder. This is used as parameters in the steps below, so please remember where you download the data to. Downloading and unzipping the data can be done in the terminal. You might need to first install `wget` and `unzip` with `apt-get` (e.g. `apt-get install wget`.
 1. Download the data into the `~/Documents/` folder with wget
 ```bash
 cd ~/Documents
