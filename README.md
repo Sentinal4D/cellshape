@@ -27,7 +27,7 @@ cellshape is the main package which imports from sub-packages:
 
 ## Installation and requirements
 ### Dependencies
-The software requires Python 3.7 or greater, [`PyTorch`](https://pytorch.org/), [`pyntcloud`](https://github.com/daavoo/pyntcloud), [`numpy`](https://numpy.org/), [`scikit-learn`](https://scikit-learn.org/stable/), `tensorboard`, [`tqdm`](https://github.com/tqdm/tqdm) (The full list is shown in the [setup.py](https://github.com/Sentinal4D/cellshape/blob/main/setup.py) file). This repo makes extensive use of [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster), [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper), and [`cellshape-voxel`](https://github.com/Sentinal4D/cellshape-voxel). To reproduce our results in our paper, only [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster) are needed.
+The software requires Python 3.7 or greater. The following are package dependencies that are installed automatically when cellshape is installed: [`PyTorch`](https://pytorch.org/), [`pyntcloud`](https://github.com/daavoo/pyntcloud), [`numpy`](https://numpy.org/), [`scikit-learn`](https://scikit-learn.org/stable/), `tensorboard`, [`tqdm`](https://github.com/tqdm/tqdm) (The full list is shown in the [setup.py](https://github.com/Sentinal4D/cellshape/blob/main/setup.py) file). This repo makes extensive use of [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster), [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper), and [`cellshape-voxel`](https://github.com/Sentinal4D/cellshape-voxel). To reproduce our results in our paper, only [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster) are needed.
 
 ### To install
 1. We recommend creating a new conda environment. In the terminal, run:
@@ -40,7 +40,7 @@ pip install --upgrade pip
 ```bash
 pip install cellshape
 ```
-This should take ~5mins.
+This should take ~5mins or less.
 
 ### Hardware requirements
 We have tested this software on an Ubuntu 20.04LTS and 18.04LTS with 128Gb RAM and NVIDIA Quadro RTX 6000 GPU.
