@@ -27,7 +27,7 @@ cellshape is the main package which imports from sub-packages:
 
 ## Installation and requirements
 ### Dependencies
-The software requires Python 3.7 or greater, [`PyTorch`](https://pytorch.org/), [`pyntcloud`](https://github.com/daavoo/pyntcloud), [`numpy`](https://numpy.org/), [`scikit-learn`](https://scikit-learn.org/stable/), `tensorboard`, [`tqdm`](https://github.com/tqdm/tqdm) (The full list is shown in the [setup.py](https://github.com/Sentinal4D/cellshape/blob/main/setup.py) file). This repo makes extensive use of [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster), [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper), and [`cellshape-voxel`](https://github.com/Sentinal4D/cellshape-voxel). To reproduce our results in our paper, only [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster) are needed.
+The software requires Python 3.7 or greater. The following are package dependencies that are installed automatically when cellshape is installed: [`PyTorch`](https://pytorch.org/), [`pyntcloud`](https://github.com/daavoo/pyntcloud), [`numpy`](https://numpy.org/), [`scikit-learn`](https://scikit-learn.org/stable/), `tensorboard`, [`tqdm`](https://github.com/tqdm/tqdm) (The full list is shown in the [setup.py](https://github.com/Sentinal4D/cellshape/blob/main/setup.py) file). This repo makes extensive use of [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster), [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper), and [`cellshape-voxel`](https://github.com/Sentinal4D/cellshape-voxel). To reproduce our results in our paper, only [`cellshape-cloud`](https://github.com/Sentinal4D/cellshape-cloud), [`cellshape-cluster`](https://github.com/Sentinal4D/cellshape-cluster) are needed.
 
 ### To install
 1. We recommend creating a new conda environment. In the terminal, run:
@@ -40,7 +40,7 @@ pip install --upgrade pip
 ```bash
 pip install cellshape
 ```
-This should take ~5mins.
+This should take ~5mins or less.
 
 ### Hardware requirements
 We have tested this software on an Ubuntu 20.04LTS and 18.04LTS with 128Gb RAM and NVIDIA Quadro RTX 6000 GPU.
@@ -79,7 +79,7 @@ This data structure is only necessary if wanting to use our data. If you would l
 The following steps assume that one already has point cloud representations of cells or nuclei. If you need to generate point clouds from 3D binary masks, please go to [`cellshape-helper`](https://github.com/Sentinal4D/cellshape-helper).
 
 ### Downloading the dataset
-We suggest testing our code on the data contained in `SamplePointCloudData.zip`. Please download the data and unzip the contents into a directory of your choice. We recommend doing this in your `~Documents/` folder. This is used as parameters in the steps below, so please remember where you download the data to. Downloading and unzipping the data can be done in the terminal:
+We suggest testing our code on the data contained in `SamplePointCloudData.zip`. Please download the data and unzip the contents into a directory of your choice. We recommend doing this in your `~Documents/` folder. This is used as parameters in the steps below, so please remember where you download the data to. Downloading and unzipping the data can be done in the terminal. You might need to first install `wget` and `unzip` with `apt-get` (e.g. `apt-get install wget`.
 1. Download the data into the `~/Documents/` folder with wget
 ```bash
 cd ~/Documents
@@ -130,7 +130,7 @@ This step will create an output directory `/home/USER/Documents/cellshapeOutput/
 
 
 #### 2. Add clustering layer to refine shape features and learn shape classes simultaneously
-The next step is to add the clustering layer to refine the model weights. As before, run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, `--output_dir`, and `--pretrained-path` parmaeters to be specific to your directories. If you have followed the previous steps, then you will still be in the `~Documents/ path. In the same terminal, run:
+The next step is to add the clustering layer to refine the model weights. As before, run the following in the terminal. Remember to change the `--cloud_dataset_path`, `--dataframe_path`, `--output_dir`, and `--pretrained-path` parmaeters to be specific to your directories. If you have followed the previous steps, then you will still be in the `~Documents/` path. In the same terminal, run:
 
 ```bash
 cellshape-train \
