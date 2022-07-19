@@ -326,7 +326,7 @@ def main():
                 everything_working = False
             try:
                 autoencoder.load_state_dict(checkpoint["model_state_dict"])
-                print(f"The loss of the loaded model is {checkpoint['loss']}")
+                print(f"The loss of the loaded model is {checkpoint['loss']}.")
             except RuntimeError:
                 print(
                     "The model architecture given doesn't "
@@ -336,9 +336,9 @@ def main():
                 wrong_architecture = True
                 everything_working = False
             except AttributeError:
-                print("Training from scratch")
+                print("Training from scratch.")
             except:
-                print("")
+                print("Training from scratch.")
 
             model = cscluster.DeepEmbeddedClustering(
                 autoencoder=autoencoder, num_clusters=args.num_clusters
