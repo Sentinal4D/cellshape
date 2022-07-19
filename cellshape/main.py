@@ -347,7 +347,9 @@ if __name__ == "__main__":
                 print("Training from scratch")
                 wrong_architecture = True
                 everything_working = False
-            except AttributeError:
+            except AttributeError or TypeError:
+                print("Training from scratch")
+            except:
                 print("Training from scratch")
 
             model = cscluster.DeepEmbeddedClustering(
