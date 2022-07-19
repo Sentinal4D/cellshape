@@ -172,6 +172,8 @@ cellshape-train \
 ### Inference
 Example inference notebooks can be found in the `docs/notebooks/` folder.
 
+## Issues
+If you have any problems, please raise an issue [here](https://github.com/Sentinal4D/cellshape/issues)
 
 ## References
 [1] An Tao, 'Unsupervised Point Cloud Reconstruction for Classific Feature Learning', [GitHub Repo](https://github.com/AnTao97/UnsupervisedPointCloudReconstruction), 2020
