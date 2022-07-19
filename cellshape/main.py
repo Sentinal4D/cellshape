@@ -336,6 +336,11 @@ if __name__ == "__main__":
                 checkpoint = {"model_state_dict": None}
                 file_not_found = True
                 everything_working = False
+            except:
+                print("No model given. Training from scratch")
+                checkpoint = {"model_state_dict": None}
+                file_not_found = True
+                everything_working = False
             try:
                 autoencoder.load_state_dict(checkpoint["model_state_dict"])
                 print(f"The loss of the loaded model is {checkpoint['loss']}")

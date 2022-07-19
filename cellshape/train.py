@@ -337,6 +337,8 @@ def main():
                 everything_working = False
             except AttributeError:
                 print("Training from scratch")
+            except:
+                print("")
 
             model = cscluster.DeepEmbeddedClustering(
                 autoencoder=autoencoder, num_clusters=args.num_clusters
