@@ -8,7 +8,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![Development Status](https://img.shields.io/pypi/status/cellshape.svg)](https://github.com/Sentinal4D/cellshape)
 [![Tests](https://img.shields.io/github/workflow/status/Sentinal4D/cellshape/tests)](
     https://github.com/Sentinal4D/cellshape/actions)
-[![Coverage Status](https://coveralls.io/repos/github/Sentinal4D/cellshape/badge.svg?branch=master)](https://coveralls.io/github/Sentinal4D/cellshape?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/Sentinal4D/cellshape/badge.svg?branch=main)](https://coveralls.io/github/Sentinal4D/cellshape?branch=main)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 <img src="https://github.com/Sentinal4D/cellshape/blob/main/img/cellshape.png" 
