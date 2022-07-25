@@ -177,7 +177,7 @@ If you have any problems, please raise an issue [here](https://github.com/Sentin
 
 ## Citation
 ```bibtext
-@article {De Vries2022.06.17.496550,
+@article{DeVries2022,
 	author = {De Vries, Matt and Dent, Lucas and Curry, Nathan and Rowe-Brown, Leo and Tyson, Adam and Dunsby, Christopher and Bakal, Chris},
 	title = {3D single-cell shape analysis of cancer cells using geometric deep learning},
 	elocation-id = {2022.06.17.496550},
