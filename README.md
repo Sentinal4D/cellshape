@@ -175,5 +175,20 @@ Example inference notebooks can be found in the `docs/notebooks/` folder.
 ## Issues
 If you have any problems, please raise an issue [here](https://github.com/Sentinal4D/cellshape/issues)
 
+## Citation
+```bibtext
+@article {De Vries2022.06.17.496550,
+	author = {De Vries, Matt and Dent, Lucas and Curry, Nathan and Rowe-Brown, Leo and Tyson, Adam and Dunsby, Christopher and Bakal, Chris},
+	title = {3D single-cell shape analysis of cancer cells using geometric deep learning},
+	elocation-id = {2022.06.17.496550},
+	year = {2022},
+	doi = {10.1101/2022.06.17.496550},
+	publisher = {Cold Spring Harbor Laboratory},
+	URL = {https://www.biorxiv.org/content/early/2022/06/17/2022.06.17.496550},
+	eprint = {https://www.biorxiv.org/content/early/2022/06/17/2022.06.17.496550.full.pdf},
+	journal = {bioRxiv}
+}
+```
+
 ## References
 [1] An Tao, 'Unsupervised Point Cloud Reconstruction for Classific Feature Learning', [GitHub Repo](https://github.com/AnTao97/UnsupervisedPointCloudReconstruction), 2020
