@@ -17,7 +17,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 # 3D single-cell shape analysis of cancer cells using geometric deep learning
 
 
-This is a Python package for 3D cell shape features and classes using deep learning. Please refer to our preprint on bioRxiv [here](https://www.biorxiv.org/content/10.1101/2022.06.17.496550v1).
+This is a Python package for 3D cell shape features and classes using deep learning. Please refer to our preprint [here](https://www.biorxiv.org/content/10.1101/2022.06.17.496550v1).
 
 cellshape is the main package which imports from sub-packages:
 - [cellshape-helper](https://github.com/Sentinal4D/cellshape-helper): Facilitates point cloud generation from 3D binary masks.
