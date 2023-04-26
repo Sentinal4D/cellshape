@@ -238,7 +238,6 @@ def main():
                 ) = cscluster.get_experiment_name(
                     model=model, output_dir=args.output_dir
                 )
-                cluster_criterion = torch.nn.KLDivLoss(reduction="sum")
 
                 if args.dataset_type == "SingleCell":
                     dataset = cscloud.SingleCellDataset(
