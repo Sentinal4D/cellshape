@@ -23,7 +23,6 @@ def plot_to_image(fig):
 
 
 def plot_point_cloud(points):
-
     fig = plt.figure(figsize=(5, 5))
     ax = plt.axes(projection="3d")
 
