@@ -213,7 +213,7 @@ def main():
             # clustering layer) ONLY?
             # Yes
             if args.train_type == "pretrain":
-                cscloud.train(args)
+                cscloud.train_autoencoder(args)
                 exit()
 
             # No, we want to train the full thing
@@ -224,7 +224,7 @@ def main():
                     name_model_ae,
                     name_writer_ae,
                     name_ae,
-                ) = cscloud.train(args)
+                ) = cscloud.train_autoencoder(args)
 
                 model = cscluster.DeepEmbeddedClustering(
                     autoencoder=autoencoder, num_clusters=args.num_clusters
