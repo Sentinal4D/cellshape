@@ -177,15 +177,15 @@ If you have any problems, please raise an issue [here](https://github.com/Sentin
 
 ## Citation
 ```bibtex
-@article{DeVries2022,
-	author = {De Vries, Matt and Dent, Lucas and Curry, Nathan and Rowe-Brown, Leo and Tyson, Adam and Dunsby, Christopher and Bakal, Chris},
-	title = {3D single-cell shape analysis of cancer cells using geometric deep learning},
+@article{DeVries2022single,
+	author = {Matt De Vries and Lucas Dent and Nathan Curry and Leo Rowe-Brown and Vicky Bousgouni and Adam Tyson and Christopher Dunsby and Chris Bakal},
+	title = {3D single-cell shape analysis using geometric deep learning},
 	elocation-id = {2022.06.17.496550},
-	year = {2022},
+	year = {2023},
 	doi = {10.1101/2022.06.17.496550},
 	publisher = {Cold Spring Harbor Laboratory},
-	URL = {https://www.biorxiv.org/content/early/2022/06/17/2022.06.17.496550},
-	eprint = {https://www.biorxiv.org/content/early/2022/06/17/2022.06.17.496550.full.pdf},
+	URL = {https://www.biorxiv.org/content/early/2023/03/27/2022.06.17.496550},
+	eprint = {https://www.biorxiv.org/content/early/2023/03/27/2022.06.17.496550.full.pdf},
 	journal = {bioRxiv}
 }
 ```
