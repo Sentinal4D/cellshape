@@ -179,16 +179,17 @@ If you have any problems, please raise an issue [here](https://github.com/Sentin
 
 ## Citation
 ```bibtex
-@article{DeVries2022single,
-	author = {Matt De Vries and Lucas Dent and Nathan Curry and Leo Rowe-Brown and Vicky Bousgouni and Adam Tyson and Christopher Dunsby and Chris Bakal},
-	title = {3D single-cell shape analysis using geometric deep learning},
-	elocation-id = {2022.06.17.496550},
-	year = {2023},
-	doi = {10.1101/2022.06.17.496550},
-	publisher = {Cold Spring Harbor Laboratory},
-	URL = {https://www.biorxiv.org/content/early/2023/03/27/2022.06.17.496550},
-	eprint = {https://www.biorxiv.org/content/early/2023/03/27/2022.06.17.496550.full.pdf},
-	journal = {bioRxiv}
+@article{DEVRIES2025101229,
+title = {Geometric deep learning and multiple-instance learning for 3D cell-shape profiling},
+journal = {Cell Systems},
+volume = {16},
+number = {3},
+pages = {101229},
+year = {2025},
+issn = {2405-4712},
+doi = {https://doi.org/10.1016/j.cels.2025.101229},
+url = {https://www.sciencedirect.com/science/article/pii/S2405471225000626},
+author = {Matt {De Vries} and Lucas G. Dent and Nathan Curry and Leo Rowe-Brown and Vicky Bousgouni and Olga Fourkioti and Reed Naidoo and Hugh Sparks and Adam Tyson and Chris Dunsby and Chris Bakal},
 }
 ```
 
